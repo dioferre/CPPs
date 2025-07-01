@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 15:34:14 by dioferre          #+#    #+#             */
-/*   Updated: 2025/05/19 17:24:13 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/07/01 10:04:49 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	Harl::error( void )
 				<< std::endl;
 }
 
-int	getLevelId( std::string& level )
+int		getLevelId( std::string& level )
 {
 	if (level == "DEBUG")
 		return (1);
@@ -98,4 +98,3 @@ void	Harl::complain( std::string level )
 			break;
 	}
 }
-
