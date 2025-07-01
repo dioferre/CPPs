@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:30:24 by dioferre          #+#    #+#             */
-/*   Updated: 2025/07/01 13:42:54 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:28:35 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,24 @@
 
 WrongAnimal::WrongAnimal()
 {
+	std::cout << "<Wrong Animal> default constructor called." << std::endl;
 	this->type = "Wrong Animal";
 }
 
 WrongAnimal::WrongAnimal( const WrongAnimal& other )
 {
+	std::cout << "<Wrong Animal> copy constructor called." << std::endl;
 	*this = other;
 }
 
 WrongAnimal::~WrongAnimal()
 {
+	std::cout << "<Wrong Animal> default destructor called." << std::endl;
 }
 
 WrongAnimal& WrongAnimal::operator=( const WrongAnimal& other )
 {
+	std::cout << "<Wrong Animal> assignment operator called." << std::endl;
 	if (this != &other)
 	{
 		type = other.type;

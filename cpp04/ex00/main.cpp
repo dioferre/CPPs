@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 10:38:05 by dioferre          #+#    #+#             */
-/*   Updated: 2025/07/01 13:41:56 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:33:09 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,20 @@ int main()
 	const WrongAnimal* wrongCat = new WrongCat();
 	
 	//			Prints
-	
-	std::cout << "\n------Animals-----\n" << std::endl;
+
+	std::cout << BWHITE;
+	std::cout << "\n--------- Animals --------\n" << std::endl;
 	
 	printAnimalSound(*animal);
 	printAnimalSound(*dog);
 	printAnimalSound(*cat);
 	
-	std::cout << "\n------Wrong Animals-----\n" << std::endl;
+	std::cout << "\n------ Wrong Animals -----\n" << std::endl;
 	printWrongAnimalSound(*wrongAnimal);
 	printWrongAnimalSound(*wrongCat);
 
-	std::cout << std::endl;
+	std::cout << "\n--------------------------\n" << std::endl;
+	std::cout << RESET;
 
 	//			Cleaning
 	
