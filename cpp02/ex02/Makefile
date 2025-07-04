@@ -7,7 +7,7 @@ SRCS := main.cpp   Fixed.cpp
 OBJS := $(SRCS:.cpp=.o)
 
 # Executable name
-NAME := account
+NAME := fixed
 
 # Default target
 all: $(NAME)

@@ -3,6 +3,9 @@
 
 #include <iostream>
 
+# define RESET				"\033[0m"
+# define BWHITE				"\033[1;37m"
+
 class Fixed
 {
 	private:
@@ -24,7 +27,7 @@ class Fixed
 		bool operator>( const Fixed& src );
 		bool operator<=( const Fixed& src );
 		bool operator>=( const Fixed& src );
-		bool operator==( const Fixed& src );
+		bool operator==( const Fixed& src ); 
 		bool operator!=( const Fixed& src );
 
 		// Arithmetic Operators
@@ -48,6 +51,9 @@ class Fixed
 
 		float	toFloat( void ) const;
 		int		toInt( void ) const;
+
+		static Fixed&	min(Fixed& var1, Fixed& var2);
+		static Fixed&	max(Fixed& var1, Fixed& var2);
 
 		static const Fixed&	min(const Fixed& var1, const Fixed& var2);
 		static const Fixed&	max(const Fixed& var1, const Fixed& var2);

@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:41:06 by dioferre          #+#    #+#             */
-/*   Updated: 2025/05/27 17:09:53 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/07/04 14:44:52 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ Fixed	&Fixed::operator=( const Fixed& src )
 
 	if ( this != &src )
 		this->value = src.getRawBits();
-	else
-		return ( *this );
+	return ( *this );
 }
 
 int		Fixed::getRawBits( void ) const

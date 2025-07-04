@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:41:06 by dioferre          #+#    #+#             */
-/*   Updated: 2025/05/27 17:09:53 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:55:45 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,21 @@ const int	Fixed::fractionalBits = 8;
 
 Fixed::Fixed()
 {
-	std::cout << "Default constructor called" << std::endl;
 	this->value = 0;
 }
 
 Fixed::Fixed( const Fixed& toCopy )
 {
-	std::cout << "Copy constructor called" << std::endl;
 	*this = toCopy;
 }
 
 Fixed::Fixed( const int nr )
 {
-	std::cout << "Int constructor called" << std::endl;
-
 	value = nr << fractionalBits;
 }
 
 Fixed::Fixed( const float nr )
 {
-	std::cout << "Float constructor called" << std::endl;
-
 	value = roundf(nr * (1 << fractionalBits));
 }
 
@@ -48,7 +42,6 @@ Fixed::Fixed( const float nr )
 
 Fixed::~Fixed()
 {
-	std::cout << "Destructor called" << std::endl;
 }
 
 // Overload Operators
@@ -56,8 +49,6 @@ Fixed::~Fixed()
 
 Fixed	&Fixed::operator=( const Fixed& src )
 {
-	std::cout << "Copy assignment operator called" << std::endl;
-
 	if ( this != &src )
 		this->value = src.getRawBits();
 	return ( *this );
@@ -177,6 +168,20 @@ float	Fixed::toFloat( void ) const
 int		Fixed::toInt( void ) const
 {
 	return (value >> fractionalBits);
+}
+
+Fixed&	Fixed::min(Fixed& var1, Fixed& var2)
+{
+	if (var1.value < var2.value)
+		return (var1);
+	return (var2);
+}
+
+Fixed&	Fixed::max(Fixed& var1, Fixed& var2)
+{
+	if (var1.value > var2.value)
+		return (var1);
+	return (var2);
 }
 
 const Fixed&	Fixed::min(const Fixed& var1, const Fixed& var2) 
