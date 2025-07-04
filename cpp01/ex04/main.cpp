@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 11:56:52 by dioferre          #+#    #+#             */
-/*   Updated: 2025/07/01 09:05:58 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:10:11 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,11 @@ int	main( int argc, char **argv )
 
 	std::string		line;
 
+	if (!*argv[2])
+	{
+		printError("Cannot replace NULL character.");
+		return (1);
+	}
 	if (argc != 4)
 	{
 		printError("Program takes 3 arguments.");
