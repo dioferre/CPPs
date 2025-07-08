@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 10:38:05 by dioferre          #+#    #+#             */
-/*   Updated: 2025/07/01 15:33:09 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/07/04 10:37:06 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,47 +21,35 @@ void	printAnimalSound( const Animal& subject )
 {
 	std::cout << subject.getType() << ": ";
 	subject.makeSound();
-}
-
-void	printWrongAnimalSound( const WrongAnimal& subject )
-{
-	std::cout << subject.getType() << ": ";
-	subject.makeSound();
+	std::cout << std::endl;
 }
 
 int main()
 {
-	const Animal* animal = new Animal();
-	const Animal* dog = new Dog();
-	const Animal* cat = new Cat();
+	Animal*	animals[4];
 
-	const WrongAnimal* wrongAnimal = new WrongAnimal();
-	const WrongAnimal* wrongCat = new WrongCat();
+	for (size_t i = 0; i < 5; i++)
+	{
+		if (i % 2 == 0)
+			animals[i] = new Dog();
+		else
+			animals[i] = new Cat();
+	}
 	
-	//			Prints
+	std::cout << std::endl;
 
-	std::cout << BWHITE;
-	std::cout << "\n--------- Animals --------\n" << std::endl;
+	for (size_t i = 0; i < 5; i++)
+	{
+		std::cout << "This is a " << animals[i]->getType() << std::endl;
+		printAnimalSound(*animals[i]);
+	}
 	
-	printAnimalSound(*animal);
-	printAnimalSound(*dog);
-	printAnimalSound(*cat);
+	std::cout << std::endl;
+
+	for (size_t i = 0; i < 5; i++)
+	{
+		delete animals[i];
+	}
 	
-	std::cout << "\n------ Wrong Animals -----\n" << std::endl;
-	printWrongAnimalSound(*wrongAnimal);
-	printWrongAnimalSound(*wrongCat);
-
-	std::cout << "\n--------------------------\n" << std::endl;
-	std::cout << RESET;
-
-	//			Cleaning
-	
-	delete (animal);
-	delete (dog);
-	delete (cat);
-
-	delete(wrongAnimal);
-	delete(wrongCat);
-
 	return (0);
 }

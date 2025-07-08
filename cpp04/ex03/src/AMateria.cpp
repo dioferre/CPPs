@@ -1,29 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Brain.cpp                                          :+:      :+:    :+:   */
+/*   AMateria.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/01 15:41:46 by dioferre          #+#    #+#             */
-/*   Updated: 2025/07/01 15:43:45 by dioferre         ###   ########.fr       */
+/*   Created: 2025/07/08 14:30:32 by dioferre          #+#    #+#             */
+/*   Updated: 2025/07/08 14:50:57 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Brain.hpp"
+#include "AMateria.hpp"
 
-Brain::Brain()
+AMateria::AMateria() : type("unknown")
 {
-	std::cout << "<Brain> default constructor called." << std::endl;
 }
 
-Brain::Brain( const Brain& other )
+AMateria::AMateria( const std::string& _type) : type(_type)
+{	
+}
+
+AMateria::AMateria( const AMateria& other )
 {
-	std::cout << "<Brain> copy constructor called." << std::endl;
 	*this = other;
 }
 
-Brain::~Brain()
+AMateria::~AMateria()
 {
-	std::cout << "<Cat> default destructor called." << std::endl;
+}
+
+AMateria&	AMateria::operator=( const AMateria& other )
+{
+	if (this != &other)
+	{
+		
+	}
+	return(*this);
+}
+
+const std::string&	AMateria::getType() const
+{
+	return (type);
 }

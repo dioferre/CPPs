@@ -3,8 +3,16 @@ CXX := c++
 CXXFLAGS := -Wall -Wextra -Werror -std=c++98 -Iincludes
 
 # Source and object files
-SRCS := main.cpp   Animal.cpp   Cat.cpp   Dog.cpp   WrongAnimal.cpp   WrongCat.cpp   
-OBJS := $(SRCS:.cpp=.o)
+SRC_DIR := src
+OBJ_DIR := build
+
+SRCS := $(SRC_DIR)/main.cpp \
+	$(SRC_DIR)/Animal.cpp \
+	$(SRC_DIR)/Cat.cpp \
+	$(SRC_DIR)/Dog.cpp \
+	$(SRC_DIR)/WrongAnimal.cpp \
+	$(SRC_DIR)/WrongCat.cpp
+OBJS := $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 # Executable name
 NAME := Animals
@@ -17,12 +25,13 @@ $(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
 
 # Compile source files to object files
-%.o: %.cpp
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	mkdir -p $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Clean object files and binary
 clean:
-	rm -f $(OBJS)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	rm -f $(NAME)
