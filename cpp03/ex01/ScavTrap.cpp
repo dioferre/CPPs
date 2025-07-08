@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 10:38:20 by dioferre          #+#    #+#             */
-/*   Updated: 2025/07/08 10:38:21 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/07/08 13:38:50 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,21 @@ ScavTrap& ScavTrap::operator=( const ScavTrap& src )
 
 void	ScavTrap::attack( const std::string& target )
 {
-	std::cout << BWHITE << "<" << this->_name << "> " << RESET
-				<< "with an astonishing attack power of " << RED << AD << RESET << ","
-				<< " attacks " << BWHITE<< "<" << target << ">" << RESET << "!\n"
-				<< "However it slips and misses the attack, how embarassing!" << std::endl;
+	if ( EP >= 1 && HP > 0)
+	{
+		std::cout << BWHITE << "<" << this->_name << "> " << RESET
+					<< "with an astonishing attack power of " << RED << AD << RESET << ","
+					<< " attacks " << BWHITE<< "<" << target << ">" << RESET << "!\n"
+					<< "However it slips and misses the attack, how embarassing!" << std::endl;
+	}
 }
 
 void	ScavTrap::guardGate( void )
 {
-	std::cout << BWHITE << "<" << this->_name << "> " << RESET
-				<< "is now guarding the gate! "
-				<< "Whatever that means..." << std::endl;
+	if ( HP > 0 )
+	{
+		std::cout << BWHITE << "<" << this->_name << "> " << RESET
+					<< "is now guarding the gate! "
+					<< "Whatever that means..." << std::endl;
+	}
 }
