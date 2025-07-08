@@ -3,12 +3,18 @@
 
 int	main(void)
 {
-	ScavTrap subject1("Camelo");
-	ClapTrap subject2("Abutre");
+	ClapTrap subject1("Abutre");
+	ScavTrap subject2("Camelo");
+	ScavTrap subject3(subject2);
 
-	subject1.guardGate();
-	subject1.attack("Albatroz");
-	subject2.attack("Suricata");
+	std::cout << std::endl;
 
+	subject2.guardGate();
+	subject2.attack("Albatroz");
+	subject1.attack("Suricata");
+
+	subject3.beRepaired(2);
+
+	std::cout << std::endl;
 	return (0);
 }

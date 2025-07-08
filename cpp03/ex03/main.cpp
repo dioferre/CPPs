@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 12:32:15 by dioferre          #+#    #+#             */
-/*   Updated: 2025/06/28 15:16:18 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/07/08 11:18:20 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,54 @@
 #include "FragTrap.hpp"
 #include "DiamondTrap.hpp"
 
+void printHeader(const std::string& header)
+{
+	const int	totalWidth = 50;
+	int			dashCount = (totalWidth - header.size() - 2) / 2; // 2 for spaces
+	int			oddFactor = (totalWidth - header.size() - 2) % 2; // Fix in case the result is an odd number
+	
+	std::cout << std::string(dashCount, '-') << " " << header << " "
+				<< std::string(dashCount + oddFactor, '-') << std::endl;
+}
 
 int	main(void)
 {
-	ScavTrap subject1("Camelo");
-	ClapTrap subject2("Abutre");
-	FragTrap subject3("Papas de Sarrabulho");
-	DiamondTrap subject4("ola123");
-
-	subject1.guardGate();
-	subject1.attack("Albatroz");
-
-	subject2.attack("Suricata");
-	
-	subject3.attack("Albatroz");
-	subject3.highFivesGuys();
-
-	subject4.whoAmI();
-
-	std::cout << "Subject 4 Attributes:\n";
-	std::cout << "HP: " << subject4.getHP();
-	std::cout << "\nEP: " << subject4.getEP();
-	std::cout << "\nAD: " << subject4.getAD();
+	// Construction
+	printHeader("Construction Logs");
+	ScavTrap _scav("Camelo");
+	ClapTrap _clap("Abutre");
+	FragTrap _frag("Papas de Sarrabulho");
+	DiamondTrap _diamond("ola123");
 	std::cout << std::endl;
+
+	// First Tests
+	printHeader("First Tests");
+	_scav.guardGate();
+	_scav.attack("Albatroz");
+	_clap.attack("Suricata");
+	_frag.attack("Albatroz");
+	_frag.highFivesGuys();
+
+	// Diamond Tests
+	std::cout << std::endl;
+	printHeader("Diamond Tests");
+	_diamond.whoAmI();
+	std::cout << "HP: " << _diamond.getHP();
+	std::cout << "\nEP: " << _diamond.getEP();
+	std::cout << "\nAD: " << _diamond.getAD() << std::endl;
+	_diamond.attack(_clap.getName());
 	
+	// Copy Tests
+	printHeader("Copy Tests");
+	DiamondTrap _diamondCopy(_diamond);
+	_diamondCopy.whoAmI();
+	std::cout << "HP: " << _diamondCopy.getHP();
+	std::cout << "\nEP: " << _diamondCopy.getEP();
+	std::cout << "\nAD: " << _diamondCopy.getAD() << std::endl;
+
+	// Destruction
+	printHeader("Destruction Logs");
+	std::cout << std::endl;
+
 	return (0);
 }

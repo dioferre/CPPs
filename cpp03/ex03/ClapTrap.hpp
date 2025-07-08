@@ -40,7 +40,7 @@ public:
 	void				takeDamage( unsigned int amount );
 	void				beRepaired( unsigned int amount );
 
-	std::string			getName() const;
+	virtual std::string	getName() const;
 	unsigned int		getHP() const;
 	unsigned int		getEP() const;
 	unsigned int		getAD() const;

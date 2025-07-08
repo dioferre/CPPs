@@ -1,17 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ScavTrap.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/08 10:38:00 by dioferre          #+#    #+#             */
+/*   Updated: 2025/07/08 10:38:02 by dioferre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "ScavTrap.hpp"
 
 ScavTrap::ScavTrap( std::string Name ) : ClapTrap(Name)
 {
-	std::cout << BWHITE << "<ScavTrap>"
-				<< GREEN " Constructor" << RESET
-				<< " called." << std::endl;
+	std::cout << "<ScavTrap> constructor called" << std::endl;
+}
+
+ScavTrap::ScavTrap( const ScavTrap& src ) : ClapTrap(src)
+{
+	std::cout << "<ScavTrap> copy constructor called" << std::endl;
 }
 
 ScavTrap::~ScavTrap()
 {
-	std::cout << BWHITE << "<ScavTrap>"
-				<< RED " Destructor" << RESET
-				<< " called." << std::endl;
+	std::cout << "<ScavTrap> destructor called" << std::endl;
+}
+
+ScavTrap& ScavTrap::operator=( const ScavTrap& src )
+{
+	if (this != &src)
+	{
+		ClapTrap::operator=(src);
+	}
+	return (*this);
 }
 
 void	ScavTrap::attack( const std::string& target )

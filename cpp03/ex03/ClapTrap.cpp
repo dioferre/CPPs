@@ -2,31 +2,23 @@
 
 ClapTrap::ClapTrap(): _name("unknown"), HP(10), EP(10), AD(0)
 {
-	std::cout << BWHITE << "<ClapTrap>"
-				<< GREEN " Default Constructor" << RESET
-				<< " called." << std::endl;
+	std::cout << "<ClapTrap> default constructor called" << std::endl;
 }
 
 ClapTrap::ClapTrap( std::string Name ): _name(Name), HP(10), EP(10), AD(0)
 {
-	std::cout << BWHITE << "<ClapTrap>"
-				<< GREEN " Constructor" << RESET
-				<< " called." << std::endl;
+	std::cout << "<ClapTrap> construcor called" << std::endl;
 }
 
 ClapTrap::ClapTrap( const ClapTrap& src )
 {
 	*this = src;
-	std::cout << BWHITE << "<ClapTrap>"
-				<< GREEN " Copy Constructor" << RESET
-				<< " called." << std::endl;
+	std::cout << "<ClapTrap> copy constructor called" << std::endl;
 }
 
 ClapTrap::~ClapTrap()
 {
-	std::cout << BWHITE << "<ClapTrap>"
-				<< RED " Destructor" << RESET
-				<< " called." << std::endl;
+	std::cout << "<ClapTrap> destructor called" << std::endl;
 }
 
 ClapTrap& ClapTrap::operator=( const ClapTrap& src)
@@ -54,14 +46,24 @@ void	ClapTrap::attack( const std::string& target )
 
 void	ClapTrap::takeDamage( unsigned int amount )
 {
-	if ( amount <= HP  && HP > 0)
+	if ( amount <= HP && HP > 0)
+	{
+		std::cout << BWHITE << "<" << this->_name << "> " << RESET
+			<< "takes " << RED << amount << RESET << " "
+			<< "points of damage! " << std::endl;
 		HP -= amount;
+	}
 }
 
 void	ClapTrap::beRepaired( unsigned int amount )
 {
 	if ( EP > 0 && HP > 0 )
+	{
+		std::cout << BWHITE << "<" << this->_name << "> " << RESET
+			<< "repaits itself, recovering " << GREEN << amount 
+			<< RESET << " health points! " << std::endl;
 		HP += amount;
+	}
 }
 
 std::string ClapTrap::getName() const

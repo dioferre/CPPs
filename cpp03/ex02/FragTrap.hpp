@@ -11,6 +11,8 @@ public:
 	
 	~FragTrap();
 
+	FragTrap& operator=( const FragTrap& src );
+
 	void	highFivesGuys( void );
 } ;
 
