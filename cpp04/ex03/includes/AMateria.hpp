@@ -7,22 +7,34 @@
 #include "Colors.hpp"
 #include "ICharacter.hpp"
 
+class ICharacter;
+
 class AMateria
 {
 protected:
+	bool		is_on_floor;
+	ICharacter	*wielder;
 	std::string	type;
 public:
 	AMateria();
 	AMateria( const std::string& _type );
 	AMateria( const AMateria& other );
 
-	~AMateria();
+	virtual ~AMateria();
 
 	AMateria& operator=( const AMateria& other );
 
 	const std::string&	getType() const; //Returns the materia type
 	virtual AMateria*	clone() const = 0;
-	virtual void	use(ICharacter& target);
+	virtual void		use(ICharacter& target);
+
+	// Accessors / Mutators
+
+	void		setWielder( ICharacter* target );
+	ICharacter&	getWielder( void );
+
+	void		setFloorState( bool state );
+	bool		getFloorState( void );
 };
 
 #endif
