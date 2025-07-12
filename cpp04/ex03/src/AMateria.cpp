@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:30:32 by dioferre          #+#    #+#             */
-/*   Updated: 2025/07/11 16:00:56 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/07/12 17:06:27 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void	AMateria::setWielder( ICharacter* target )
 	wielder = target;
 }
 
-ICharacter&	AMateria::getWielder( void )
+ICharacter*	AMateria::getWielder( void )
 {
-	return (*wielder);
+	return (wielder);
 }
 
 void	AMateria::setFloorState( bool state )

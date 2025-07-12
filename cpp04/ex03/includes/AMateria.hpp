@@ -12,9 +12,9 @@ class ICharacter;
 class AMateria
 {
 protected:
-	bool		is_on_floor;
-	ICharacter	*wielder;
 	std::string	type;
+	ICharacter	*wielder;
+	bool		is_on_floor;
 public:
 	AMateria();
 	AMateria( const std::string& _type );
@@ -31,7 +31,7 @@ public:
 	// Accessors / Mutators
 
 	void		setWielder( ICharacter* target );
-	ICharacter&	getWielder( void );
+	ICharacter*	getWielder( void );
 
 	void		setFloorState( bool state );
 	bool		getFloorState( void );

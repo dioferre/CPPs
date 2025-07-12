@@ -12,6 +12,7 @@ SRCS := $(SRC_DIR)/main.cpp \
 	$(SRC_DIR)/ICharacter.cpp \
 	$(SRC_DIR)/Cure.cpp \
 	$(SRC_DIR)/Ice.cpp \
+	$(SRC_DIR)/Utils.cpp \
 
 OBJS := $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 

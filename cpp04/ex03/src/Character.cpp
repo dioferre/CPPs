@@ -6,32 +6,33 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 15:06:30 by dioferre          #+#    #+#             */
-/*   Updated: 2025/07/11 18:36:24 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:17:57 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Character.hpp"
 
 int Character::max_floor_items = 50;
+int Character::inventory_size = 4;
 AMateria *Character::floor[50] = {NULL};
 
 Character::Character() : ICharacter()
 {
-	for (int i = 0; i < 4; ++i) {
+	for (int i = 0; i < inventory_size; ++i) {
 		inventory[i] = NULL;
 	}
 }
 
 Character::Character( std::string _name) : ICharacter(), name(_name)
 {
-	for (int i = 0; i < 4; ++i) {
+	for (int i = 0; i < inventory_size; ++i) {
 		inventory[i] = NULL;
 	}
 }
 
 Character::Character( const Character& other)
 {
-	for (int i = 0; i < 4; ++i) {
+	for (int i = 0; i < inventory_size; ++i) {
 		inventory[i] = NULL;
 	}
 	*this = other;
@@ -39,18 +40,25 @@ Character::Character( const Character& other)
 
 Character::~Character()
 {
-	for (size_t i = 0; i < 4; i++)
+	for (int i = 0; i < inventory_size; i++)
 	{
 		if (inventory[i] != NULL)
 			delete inventory[i];
 	}
+
+	for (int i = 0; i < max_floor_items && floor[i] != NULL; i++)
+	{
+		delete floor[i];
+		floor[i] = NULL;
+	}
 }
 
+// Need to test this better
 Character&	Character::operator=( const Character& other )
 {
 	if (this != &other)
 	{
-		for (size_t i = 0; i < 4; i++)
+		for (int i = 0; i < inventory_size; i++)
 		{
 			if (inventory[i] != NULL)
 			{
@@ -61,7 +69,7 @@ Character&	Character::operator=( const Character& other )
 		
 		name = other.name;
 
-		for (size_t i = 0; i < 4; i++) {
+		for (int i = 0; i < inventory_size; i++) {
 			inventory[i] = other.inventory[i];
 		}
 	}
@@ -75,53 +83,52 @@ const std::string& Character::getName() const
 
 void	Character::equip( AMateria* m )
 {
-	if (m == NULL)
-	{
-		printError("Cannot equip a NULL materia, nothing will be done.");
+	if (!isMateriaEquippable(m))
 		return ;
-	}
 
-	for (size_t i = 0; i < 4; i++)
+	for (int i = 0; i < inventory_size; i++)
 	{
-		if (inventory[i] == m)
+		if (inventory[i] == NULL)	// Empty slot found, materia not yet equipped.
 		{
-			printError("Materia already equipped, nothing will be done.");
+			if (m->getFloorState() == true)
+			{
+				pickItem(*m);
+			}
+			else
+			{
+				m->setWielder(this);
+			}
+			inventory[i] = m;
 			return ;
 		}
-		else if (inventory[i] == NULL)
-		{
-			inventory[i] = m;
-			return;
-		}
 	}
-
-	printError("Inventory full.");
 }
  
 void	Character::unequip( int idx )
 {
-	if (idx < 0 || idx > 3)
-	{
-		printError("Invalid inventory index");
-		return;
+	if (!isValidIndex( idx )) {
+		return ;
 	}
 
 	for (int i = 0; i <= idx; i++)
 	{
 		if (i == idx && inventory[i] != NULL)
 		{
+			dropItem( *inventory[i] );
 			inventory[i] = NULL;
+			return ;
 		}
 	}
-	
+
+	std::cout << RED << "[ERROR]: " << RESET
+			<< "Cannot unequip item, no item in slot " << idx << "."
+			<< std::endl;
 }
 
 void	Character::use( int idx, ICharacter& target )
 {
-	if (0 > idx || idx > 3)
-	{
-		printError("Invalid inventory index");
-		return;
+	if (!isValidIndex( idx )) {
+		return ;
 	}
 
 	for (int i = 0; i <= idx; i++)
@@ -129,8 +136,13 @@ void	Character::use( int idx, ICharacter& target )
 		if (i == idx && inventory[i] != NULL)
 		{
 			inventory[i]->use(target);
+			return ;
 		}
 	}
+
+	std::cout << RED << "[ERROR]: " << RESET
+			<< "Cannot use item, no item in slot " << idx << "."
+			<< std::endl;
 }
 
 void	Character::dropItem( AMateria& item )
@@ -148,23 +160,23 @@ void	Character::dropItem( AMateria& item )
 	printError("Cannot drop item, the floor is full. This item won't be equipped.");
 }
 
-// Need to check these two following functions better and improve on them
 void	Character::pickItem( AMateria& item )
 {
-	int	pop_item_idx;
+	int	pop_index;
 	
-	// Find Item
 	for (int i = 0; (i < max_floor_items && floor[i] != NULL); i++)
 	{
 		if (floor[i] == &item)
-			pop_item_idx = i;
+			pop_index = i;
 	}
 	
+	rebuildFLoorArray( pop_index );
 
-	rebuild_floor_array( pop_item_idx );
+	item.setFloorState(false);
+	item.setWielder(this);
 }
 
-void	Character::rebuild_floor_array( int pop_item_idx )
+void	Character::rebuildFLoorArray( int pop_index )
 {
 	AMateria* tmp[50];
 	
@@ -175,10 +187,48 @@ void	Character::rebuild_floor_array( int pop_item_idx )
 	
 	for (int i = 0; i < max_floor_items - 1; i++)
 	{
-		if ( i >= pop_item_idx )
+		if ( i >= pop_index )
 			floor[i] = tmp[i + 1];
 	}
-	floor[50] = NULL;
-	
-	delete[] tmp;
+	floor[max_floor_items - 1] = NULL;
+}
+
+bool	Character::isValidIndex( int idx )
+{
+	if (0 > idx || idx > inventory_size - 1)
+	{
+		printError("Invalid inventory index");
+		return (false);
+	}
+	return (true);
+}
+
+bool	Character::isMateriaEquippable( AMateria* m )
+{
+	if (m == NULL)
+	{
+		printError("Cannot equip a NULL materia, nothing will be done.");
+		return ( false );
+	}
+	else if ( m->getWielder() == this )
+	{
+		printError("This materia is already equipped, nothing will be done.");
+		return ( false );
+	}
+	else if ( m->getWielder() != NULL )
+	{
+		printError("This materia is already in another character's inventory, nothing will be done.");
+		return ( false );
+	}
+	for (int i = 0; i < inventory_size; i++)
+	{
+		if ( inventory[i] == NULL )
+			break;
+		else if ( i == inventory_size - 1 )
+		{
+			printError("Inventory is full, please unequip an item before equipping a new one.");
+			return ( false );
+		}
+	}
+	return (true);
 }

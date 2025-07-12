@@ -16,8 +16,14 @@ private:
 	AMateria*			inventory[4];
 
 	static AMateria*	floor[50];
+	static int			inventory_size;
 	static int			max_floor_items;
-	void				rebuild_floor_array( int pop_item_idx );
+	void				rebuildFLoorArray( int pop_item_idx );
+
+	bool				isValidIndex( int idx );
+	bool				isMateriaEquippable( AMateria* m );
+	void				dropItem( AMateria& item );
+	void				pickItem( AMateria& item );
  public:
 	Character();
 	Character( std::string _name );
@@ -29,9 +35,6 @@ private:
 	void equip( AMateria* m );
 	void unequip( int idx );
 	void use( int idx, ICharacter& target );
-
-	void	dropItem( AMateria& item );
-	void	pickItem( AMateria& item );
 };
 
 
