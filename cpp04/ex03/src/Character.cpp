@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 15:06:30 by dioferre          #+#    #+#             */
-/*   Updated: 2025/07/12 18:17:57 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/07/13 18:43:18 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,18 @@ AMateria *Character::floor[50] = {NULL};
 
 Character::Character() : ICharacter()
 {
-	for (int i = 0; i < inventory_size; ++i) {
-		inventory[i] = NULL;
-	}
+	initInventory();
 }
 
 Character::Character( std::string _name) : ICharacter(), name(_name)
 {
-	for (int i = 0; i < inventory_size; ++i) {
-		inventory[i] = NULL;
-	}
+	initInventory();
 }
 
 Character::Character( const Character& other)
 {
-	for (int i = 0; i < inventory_size; ++i) {
-		inventory[i] = NULL;
-	}
-	*this = other;
+	initInventory();
+	copyInventory(other);
 }
 
 Character::~Character()
@@ -53,25 +47,14 @@ Character::~Character()
 	}
 }
 
-// Need to test this better
 Character&	Character::operator=( const Character& other )
 {
 	if (this != &other)
 	{
-		for (int i = 0; i < inventory_size; i++)
-		{
-			if (inventory[i] != NULL)
-			{
-				delete inventory[i];
-				inventory[i] = NULL;
-			}
-		}
-		
 		name = other.name;
-
-		for (int i = 0; i < inventory_size; i++) {
-			inventory[i] = other.inventory[i];
-		}
+		
+		cleanInventory();
+		copyInventory(other);
 	}
 	return (*this);
 }
@@ -88,7 +71,7 @@ void	Character::equip( AMateria* m )
 
 	for (int i = 0; i < inventory_size; i++)
 	{
-		if (inventory[i] == NULL)	// Empty slot found, materia not yet equipped.
+		if (inventory[i] == NULL)
 		{
 			if (m->getFloorState() == true)
 			{
@@ -114,8 +97,10 @@ void	Character::unequip( int idx )
 	{
 		if (i == idx && inventory[i] != NULL)
 		{
-			dropItem( *inventory[i] );
-			inventory[i] = NULL;
+			if (dropItem( *inventory[i] ))
+			{
+				inventory[i] = NULL;
+			}
 			return ;
 		}
 	}
@@ -143,54 +128,6 @@ void	Character::use( int idx, ICharacter& target )
 	std::cout << RED << "[ERROR]: " << RESET
 			<< "Cannot use item, no item in slot " << idx << "."
 			<< std::endl;
-}
-
-void	Character::dropItem( AMateria& item )
-{
-	for (int i = 0; i < max_floor_items; i++)
-	{
-		if (floor[i] == NULL)
-		{
-			floor[i] = &item;
-			item.setWielder(NULL);
-			item.setFloorState(true);
-			return ;
-		}
-	}
-	printError("Cannot drop item, the floor is full. This item won't be equipped.");
-}
-
-void	Character::pickItem( AMateria& item )
-{
-	int	pop_index;
-	
-	for (int i = 0; (i < max_floor_items && floor[i] != NULL); i++)
-	{
-		if (floor[i] == &item)
-			pop_index = i;
-	}
-	
-	rebuildFLoorArray( pop_index );
-
-	item.setFloorState(false);
-	item.setWielder(this);
-}
-
-void	Character::rebuildFLoorArray( int pop_index )
-{
-	AMateria* tmp[50];
-	
-	for (int i = 0; i < max_floor_items; i++)
-	{
-		tmp[i] = floor[i];
-	}
-	
-	for (int i = 0; i < max_floor_items - 1; i++)
-	{
-		if ( i >= pop_index )
-			floor[i] = tmp[i + 1];
-	}
-	floor[max_floor_items - 1] = NULL;
 }
 
 bool	Character::isValidIndex( int idx )
@@ -226,9 +163,97 @@ bool	Character::isMateriaEquippable( AMateria* m )
 			break;
 		else if ( i == inventory_size - 1 )
 		{
-			printError("Inventory is full, please unequip an item before equipping a new one.");
+			printError("Inventory is full, please unequip an item before equipping a new one. ");
 			return ( false );
 		}
 	}
 	return (true);
+}
+
+// ================ Floor Methods ================
+
+void	Character::rebuildFLoorArray( int pop_index )
+{
+	AMateria* tmp[50];
+	
+	for (int i = 0; i < max_floor_items; i++)
+	{
+		tmp[i] = floor[i];
+	}
+	
+	for (int i = 0; i < max_floor_items - 1; i++)
+	{
+		if ( i >= pop_index )
+			floor[i] = tmp[i + 1];
+	}
+	floor[max_floor_items - 1] = NULL;
+}
+
+bool	Character::dropItem( AMateria& item )
+{
+	for (int i = 0; i < max_floor_items; i++)
+	{
+		if (floor[i] == NULL)
+		{
+			floor[i] = &item;
+			item.setWielder(NULL);
+			item.setFloorState(true);
+			return (true);
+		}
+	}
+	printError("Cannot drop item, the floor is full.");
+	return (false);
+}
+
+void	Character::pickItem( AMateria& item )
+{
+	int	pop_index;
+	
+	for (int i = 0; (i < max_floor_items && floor[i] != NULL); i++)
+	{
+		if (floor[i] == &item)
+			pop_index = i;
+	}
+	
+	rebuildFLoorArray( pop_index );
+
+	item.setFloorState(false);
+	item.setWielder(this);
+}
+
+
+// ================ Inventory Methods ================
+
+void	Character::initInventory()
+{
+	for (int i = 0; i < inventory_size; ++i) {
+		inventory[i] = NULL;
+	}
+}
+
+void	Character::cleanInventory()
+{
+	for (int i = 0; i < inventory_size; i++)
+	{
+		if (inventory[i] != NULL)
+		{
+			delete (inventory[i]);
+			inventory[i] = NULL;
+		}
+	}	
+}
+
+void	Character::copyInventory( const Character& other )
+{
+	for (int i = 0; i < inventory_size; i++)
+	{
+		if (other.inventory[i] != NULL)
+		{
+			inventory[i] = other.inventory[i]->clone();
+		}
+		else
+		{
+			inventory[i] = NULL;
+		}
+	}
 }

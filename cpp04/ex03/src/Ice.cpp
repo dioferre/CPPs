@@ -6,13 +6,13 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:40:45 by dioferre          #+#    #+#             */
-/*   Updated: 2025/07/11 10:50:35 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:18:12 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Ice.hpp"
 
-Ice::Ice() : AMateria()
+Ice::Ice() : AMateria("ice")
 {
 }
 
@@ -36,7 +36,7 @@ Ice&	Ice::operator=( const Ice& other )
 
 AMateria*	Ice::clone() const
 {
-	return ( new Ice );
+	return ( new Ice(*this) );
 }
 
 void		Ice::use( ICharacter& target )

@@ -18,12 +18,17 @@ private:
 	static AMateria*	floor[50];
 	static int			inventory_size;
 	static int			max_floor_items;
-	void				rebuildFLoorArray( int pop_item_idx );
 
 	bool				isValidIndex( int idx );
 	bool				isMateriaEquippable( AMateria* m );
-	void				dropItem( AMateria& item );
+
+	void				rebuildFLoorArray( int pop_item_idx );
+	bool				dropItem( AMateria& item );
 	void				pickItem( AMateria& item );
+
+	void				initInventory();
+	void				cleanInventory();
+	void				copyInventory( const Character& other );
  public:
 	Character();
 	Character( std::string _name );

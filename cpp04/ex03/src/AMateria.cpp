@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:30:32 by dioferre          #+#    #+#             */
-/*   Updated: 2025/07/12 17:06:27 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:19:51 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,11 @@ AMateria::AMateria( const std::string& _type) : type(_type), wielder(NULL), is_o
 
 AMateria::AMateria( const AMateria& other )
 {
-	is_on_floor = other.is_on_floor;
-	wielder = other.wielder;
+	// Even if a materia is copied, it should have no wielder nor be on the floor.
+	is_on_floor = false;
+	wielder = NULL;
+	
+	
 	type = other.type;
 }
 
