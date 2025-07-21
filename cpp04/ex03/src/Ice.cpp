@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:40:45 by dioferre          #+#    #+#             */
-/*   Updated: 2025/07/13 16:18:12 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/07/21 14:52:20 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ Ice::Ice() : AMateria("ice")
 Ice::Ice( const Ice& other )
 {
 	*this = other;
+	type = other.type;
 }
 
 Ice::~Ice()

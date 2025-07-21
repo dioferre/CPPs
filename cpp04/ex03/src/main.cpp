@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 09:47:38 by dioferre          #+#    #+#             */
-/*   Updated: 2025/07/13 18:42:50 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/07/21 14:53:11 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,9 +170,9 @@ void test7() {
     AMateria* cure = src->createMateria("cure");
     AMateria* unknown = src->createMateria("fire");
 
-    std::cout << "Ice type: " << (ice ? ice->getType() : "nullptr") << std::endl;     // Expected: "ice"
-    std::cout << "Cure type: " << (cure ? cure->getType() : "nullptr") << std::endl;  // Expected: "cure"
-    std::cout << "Unknown: " << (unknown ? unknown->getType() : "nullptr") << std::endl; // Expected: "nullptr"
+    std::cout << "Ice type: " << (ice ? ice->getType() : "NULL") << std::endl;     // Expected: "ice"
+    std::cout << "Cure type: " << (cure ? cure->getType() : "NULL") << std::endl;  // Expected: "cure"
+    std::cout << "Unknown: " << (unknown ? unknown->getType() : "NULL") << std::endl; // Expected: "nullptr"
 
     delete ice;
     delete cure;

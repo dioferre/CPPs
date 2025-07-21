@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:30:32 by dioferre          #+#    #+#             */
-/*   Updated: 2025/07/13 16:19:51 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/07/21 14:52:00 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ AMateria::~AMateria()
 AMateria&	AMateria::operator=( const AMateria& other )
 {
 	if (this != &other)
-	{
-		is_on_floor = other.is_on_floor;
-		wielder = other.wielder;
-	}
+	{ }
 	return(*this);
 }
 
