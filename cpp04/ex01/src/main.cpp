@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 10:38:05 by dioferre          #+#    #+#             */
-/*   Updated: 2025/07/04 10:37:06 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/07/21 11:27:31 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include "WrongAnimal.hpp"
 #include "WrongCat.hpp"
 
+#define ARRAY_SIZE 7
+
 void	printAnimalSound( const Animal& subject )
 {
 	std::cout << subject.getType() << ": ";
@@ -26,9 +28,9 @@ void	printAnimalSound( const Animal& subject )
 
 int main()
 {
-	Animal*	animals[4];
+	Animal*	animals[ARRAY_SIZE];
 
-	for (size_t i = 0; i < 5; i++)
+	for (size_t i = 0; i < ARRAY_SIZE; i++)
 	{
 		if (i % 2 == 0)
 			animals[i] = new Dog();
@@ -36,17 +38,17 @@ int main()
 			animals[i] = new Cat();
 	}
 	
-	std::cout << std::endl;
+	std::cout << BWHITE << std::endl;
 
-	for (size_t i = 0; i < 5; i++)
+	for (size_t i = 0; i < ARRAY_SIZE; i++)
 	{
 		std::cout << "This is a " << animals[i]->getType() << std::endl;
 		printAnimalSound(*animals[i]);
 	}
 	
-	std::cout << std::endl;
+	std::cout << RESET;
 
-	for (size_t i = 0; i < 5; i++)
+	for (size_t i = 0; i < ARRAY_SIZE; i++)
 	{
 		delete animals[i];
 	}

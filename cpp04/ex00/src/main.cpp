@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 10:38:05 by dioferre          #+#    #+#             */
-/*   Updated: 2025/07/01 15:33:09 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/07/21 11:15:37 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int main()
 	const Animal* cat = new Cat();
 
 	const WrongAnimal* wrongAnimal = new WrongAnimal();
-	const WrongAnimal* wrongCat = new WrongCat();
+	const WrongCat*    wrongCat = new WrongCat();
 	
 	//			Prints
 
@@ -50,6 +50,7 @@ int main()
 	std::cout << "\n------ Wrong Animals -----\n" << std::endl;
 	printWrongAnimalSound(*wrongAnimal);
 	printWrongAnimalSound(*wrongCat);
+	std::cout << "Wrong Cat: "; wrongCat->makeSound();
 
 	std::cout << "\n--------------------------\n" << std::endl;
 	std::cout << RESET;
