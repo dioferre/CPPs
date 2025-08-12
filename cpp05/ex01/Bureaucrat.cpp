@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 09:33:44 by dioferre          #+#    #+#             */
-/*   Updated: 2025/08/11 17:52:14 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/08/12 10:21:05 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,14 @@ void	Bureaucrat::printSignExceptions( std::string Message, Form &form ) const
 
 void	Bureaucrat::signForm( Form& form )
 {
-	try
-	{
+	try {
 		form.beSigned(*this);
 		std::cout << getName() << " signed " << form.getName() << std::endl;
-	}
-	catch(const Form::GradeTooLowException& e)
-	{
+	} catch(const Form::GradeTooLowException& e) {
 		printSignExceptions("its grade is too low.", form);
-	}
-	catch(const Form::GradeTooHighException& e)
-	{
+	} catch(const Form::GradeTooHighException& e) {
 		printSignExceptions("its grade is too high (likely an invalid grade).", form);
-	}
-	catch(int e)
-	{
+	} catch(const Form::FormAlreadySignedException& e) {
 		printSignExceptions("this form is already signed", form);
 	}
 }

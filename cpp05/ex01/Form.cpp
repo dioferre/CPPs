@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:38:49 by dioferre          #+#    #+#             */
-/*   Updated: 2025/08/11 17:50:21 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/08/12 10:48:00 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ std::ostream& operator<<(std::ostream&os, const Form &Form)
 void	Form::beSigned( const Bureaucrat& bureaucrat )
 {
 	if (_isSigned)
-		throw -1;
+		throw FormAlreadySignedException();
 		
 	if (bureaucrat.getGrade() > 0 && bureaucrat.getGrade() <= _signGrade)
 		_isSigned = true;
-	else if (bureaucrat.getGrade() > 1)
+	else if (bureaucrat.getGrade() > _signGrade)
 		throw GradeTooLowException();
 	else
 		throw GradeTooHighException();
