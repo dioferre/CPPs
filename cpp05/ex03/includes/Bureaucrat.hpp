@@ -4,13 +4,17 @@
 #include <string>
 #include <exception>
 #include <iostream>
+#include "AForm.hpp"
+
+class AForm;
 
 class Bureaucrat {
 
 private:
 	const	std::string _name;
 	int		_grade;
-
+	void	printExceptionMessage( std::string Message, 
+				AForm const & form, char mode ) const;
 public:
 	Bureaucrat();
 	Bureaucrat( std::string name, int grade );
@@ -18,6 +22,9 @@ public:
 	~Bureaucrat();
 
 	Bureaucrat& operator=( const Bureaucrat& other );
+
+	void	signForm( AForm& form );
+	void	executeForm( AForm const & form ) const;
 
 	const std::string	getName() const;
 	int					getGrade() const;

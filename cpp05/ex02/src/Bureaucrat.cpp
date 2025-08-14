@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 09:33:44 by dioferre          #+#    #+#             */
-/*   Updated: 2025/08/12 12:25:31 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/08/13 15:39:20 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ std::ostream& operator<<(std::ostream&os, const Bureaucrat &bureaucrat)
 
 // =========== Form Handling ===========
 
-void	Bureaucrat::printExceptionMessage( std::string Message, AForm &form, char mode ) const
+void	Bureaucrat::printExceptionMessage( std::string Message, AForm const & form, char mode ) const
 {
 	std::string action;
 	mode == 's' ? (action = "sign") : (action = "execute");
@@ -62,26 +62,26 @@ void	Bureaucrat::signForm( AForm& form )
 {
 	try {
 		form.beSigned(*this);
-		std::cout << getName() << " signed " << form.getName() << std::endl;
+		std::cout << getName() << " signed " << form.getName() << "." << std::endl;
 	} catch(const AForm::GradeTooLowException& e) {
 		printExceptionMessage("its grade is too low.", form, 's');
 	} catch(const AForm::FormAlreadySignedException& e) {
-		printExceptionMessage("this form is already signed", form, 's');
+		printExceptionMessage("this form is already signed.", form, 's');
 	} catch(const AForm::GradeTooHighException& e) {
 		printExceptionMessage("its grade is too high (likely an invalid grade).",
 			form, 's');
 	}
 }
 
-void	Bureaucrat::executeForm( AForm& const form ) const
+void	Bureaucrat::executeForm( AForm const & form ) const
 {
 	try {
 		form.execute(*this);
-		std::cout << getName() << " executed " << form.getName() << std::endl;
+		std::cout << getName() << " executed " << form.getName() << "." << std::endl;
 	} catch(const AForm::FormNotSignedException& e) {
-		printExceptionMessage("this form is not signed", form, 'e');
+		printExceptionMessage("this form is not signed.", form, 'e');
 	} catch(const AForm::GradeTooLowException) {
-		printExceptionMessage("its grade is too low", form, 'e');
+		printExceptionMessage("its grade is too low.", form, 'e');
 	} catch(const AForm::GradeTooHighException& e) {
 		printExceptionMessage("its grade is too high (likely an invalid grade).",
 			 form, 'e');

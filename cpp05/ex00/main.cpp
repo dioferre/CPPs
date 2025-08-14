@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:14:38 by dioferre          #+#    #+#             */
-/*   Updated: 2025/08/11 12:23:16 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/08/14 10:25:53 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ void	invalidBureaucratTest(void)
 	{
 		Bureaucrat	Golias("Golias", -4);
 	}
-	catch(const std::exception& e)
+	catch(const Bureaucrat::GradeTooHighException& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+	catch(const Bureaucrat::GradeTooLowException& e)
 	{
 		std::cerr << e.what() << '\n';
 	}
@@ -30,7 +34,7 @@ void	gradeTooHighTest(Bureaucrat& b)
 	{
 		b.incrementGrade(), b.incrementGrade();
 	}
-	catch(const std::exception& e)
+	catch(const Bureaucrat::GradeTooHighException& e)
 	{
 		std::cerr << e.what() << '\n';
 	}
@@ -42,7 +46,7 @@ void	gradeTooLowTest(Bureaucrat& b)
 	{
 		b.decrementGrade();
 	}
-	catch(const std::exception& e)
+	catch(const Bureaucrat::GradeTooLowException& e)
 	{
 		std::cerr << e.what() << '\n';
 	}
@@ -58,10 +62,11 @@ int	main(void)
 	gradeTooHighTest(Tobias);
 	gradeTooLowTest(Ze);
 
-	
+	// Testing '<<' overload operator
 	std::cout << Ze << std::endl;
 	std::cout << Tobias << std::endl;
 
+	// Testing copy assignment operator
 	Ze = Tobias;
 	std::cout << Ze << std::endl;
 }

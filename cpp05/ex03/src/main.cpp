@@ -6,28 +6,41 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:14:38 by dioferre          #+#    #+#             */
-/*   Updated: 2025/08/14 10:22:25 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/08/14 10:17:56 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
-#include "Form.hpp"
+#include "AForm.hpp"
+#include "ShrubberyCreationForm.hpp"
+#include "RobotomyRequestForm.hpp"
+#include "PresidentialPardonForm.hpp"
+#include "Intern.hpp"
+
+#include <unistd.h>
+
 
 int	main(void)
 {
-	Bureaucrat	Ze("Ze", 150);
-	Bureaucrat	Tobias("Tobias", 2);
+	Bureaucrat	Tobias("Tobias", 1);
+	Bureaucrat	Zacarias("Zacarias", 150);
 
-	Form		NDA("NDA Agreement", 3, 3);
-	Form		Questionario("Questionairo bonito", 150, 150);
+	Intern someRandomIntern;
+	AForm* rrf;
+	AForm* wrong;
 
-	// Testing '<<' overload
-	std::cout << NDA << std::endl;
-	std::cout << Questionario << std::endl;
+	// checking makeForm
+	rrf = someRandomIntern.makeForm("presidential pardon", "Bender");
+	
+	// checking makeForm error
+	wrong = someRandomIntern.makeForm("a", "b");
 
-	// Checking sign permissions
-	Ze.signForm(Questionario);
-	Ze.signForm(NDA);
+	// checking if form made is working as intended
+	Zacarias.signForm(*rrf);
+	Zacarias.executeForm(*rrf);
 
-	Tobias.signForm(NDA);
+	Tobias.signForm(*rrf);
+	Tobias.executeForm(*rrf);
+
+	delete(rrf);
 }

@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 09:33:44 by dioferre          #+#    #+#             */
-/*   Updated: 2025/08/11 12:23:07 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/08/14 09:59:40 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ int	Bureaucrat::getGrade() const
 
 void Bureaucrat::incrementGrade()
 {
-	if (_grade == 1) 
+	if (_grade <= 1) 
 		throw GradeTooHighException();
 	_grade--;
 }
 
 void Bureaucrat::decrementGrade()
 {
-	if (_grade == 150) 
+	if (_grade >= 150) 
 		throw GradeTooLowException();
 	_grade++;
 }

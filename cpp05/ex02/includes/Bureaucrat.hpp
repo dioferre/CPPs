@@ -6,15 +6,15 @@
 #include <iostream>
 #include "AForm.hpp"
 
-class Form;
+class AForm;
 
 class Bureaucrat {
 
 private:
 	const	std::string _name;
 	int		_grade;
-	void	Bureaucrat::printExceptionMessage
-				( std::string Message, AForm &form, char mode ) const;
+	void	printExceptionMessage( std::string Message, 
+				AForm const & form, char mode ) const;
 public:
 	Bureaucrat();
 	Bureaucrat( std::string name, int grade );
@@ -24,7 +24,7 @@ public:
 	Bureaucrat& operator=( const Bureaucrat& other );
 
 	void	signForm( AForm& form );
-	void	executeForm( AForm& const form ) const;
+	void	executeForm( AForm const & form ) const;
 
 	const std::string	getName() const;
 	int					getGrade() const;

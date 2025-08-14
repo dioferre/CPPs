@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 11:05:03 by dioferre          #+#    #+#             */
-/*   Updated: 2025/08/12 12:07:36 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/08/13 19:10:53 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,17 @@ ShrubberyCreationForm::ShrubberyCreationForm( const ShrubberyCreationForm& other
 	AForm(other.getName(), 145, 137), _target(other.getTarget()) {}
 
 ShrubberyCreationForm::~ShrubberyCreationForm() {}
+
+ShrubberyCreationForm& ShrubberyCreationForm::operator=
+	( const ShrubberyCreationForm& other )
+{
+	if (this != &other)
+	{
+		_target = other.getTarget();
+		AForm::operator=(other);
+	}
+	return (*this);
+}
 
 void	ShrubberyCreationForm::writeTree( std::ofstream& file ) const
 {
@@ -44,7 +55,7 @@ void	ShrubberyCreationForm::execForm() const
 
 	if (outFile.is_open())
 	{
-		int	number_of_trees = 3;
+		size_t	number_of_trees = 3;
 		for (size_t i = 0; i < number_of_trees; i++) {
 			writeTree(outFile);
 			outFile << std::endl;

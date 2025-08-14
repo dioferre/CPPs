@@ -17,13 +17,12 @@ public:
 	AForm();
 	AForm( std::string name, int sign_grade, int exec_grade );
 	AForm( const AForm& other );
-	~AForm();
+	virtual ~AForm();
 
 	AForm& operator=( const AForm& other );
 
 	void	beSigned( const Bureaucrat& bureaucrat );
 	void	execute( const Bureaucrat& executor ) const ;
-
 
 	const std::string	getName() const;
 	int					getSignGrade() const;
