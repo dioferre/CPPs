@@ -133,20 +133,93 @@ void	handleChar( const std::string& literal )
 
 void	handleInt( const std::string& literal )
 {
-	
+	errno = 0;
+	long	l = strtol(literal.c_str(), NULL, 10);
+
+	if (errno || l > INT_MAX || l < INT_MIN)
+	{
+		std::cout << "Char: Impossible" << std::endl;
+		std::cout << "Int: Impossible" << std::endl;
+		std::cout << "Double: Impossible" << std::endl;
+		std::cout << "Float: Impossible" << std::endl;
+		return ;
+	}
+
+	char	c = static_cast<char>(l);
+	int		i = static_cast<int>(l);
+	double	d = static_cast<double>(l);
+	float	f = static_cast<float>(l);
+
+	printInfo(c, i, d ,f);
 }
 void	handleDouble( const std::string& literal )
 {
-	
+	errno = 0;
+	double	d = strtod(literal.c_str(), NULL);
+
+	if (errno)
+	{
+		std::cout << "Char: Impossible" << std::endl;
+		std::cout << "Int: Impossible" << std::endl;
+		std::cout << "Double: Impossible" << std::endl;
+		std::cout << "Float: Impossible" << std::endl;
+		return ;
+	}
+
+	char	c = static_cast<char>(d);
+	int		i = static_cast<int>(d);
+	float	f = static_cast<float>(d);
+
+	printInfo(c, i, d ,f);
 }
 void	handleFloat( const std::string& literal )
 {
-	
+	errno = 0;
+	float	f = strtof(literal.c_str(), NULL);
+
+	if (errno)
+	{
+		std::cout << "Char: Impossible" << std::endl;
+		std::cout << "Int: Impossible" << std::endl;
+		std::cout << "Double: Impossible" << std::endl;
+		std::cout << "Float: Impossible" << std::endl;
+		return ;
+	}
+
+	char	c = static_cast<char>(f);
+	int		i = static_cast<int>(f);
+	double	d = static_cast<float>(f);
+
+	printInfo(c, i, d ,f);
 }
 
 void	printInfo( char c, int i, double d, float f )
 {
+	std::cout << "Char: ";
+	if (isprint(c))
+	{
+		std::cout << c << std::endl;
+	}
+	else
+	{
+		std::cout << "Non Displayable." << std::endl;
+	}
+
+	std::cout << "Int: " << i << std::endl;
+
+	std::cout << "Double: " << d;
+	if (d == static_cast<int>(d))
+	{
+		std::cout << ".0";
+	}
+	std::cout << std::endl;
 	
+	std::cout << "Float: " << f;
+	if (f == static_cast<int>(f))
+	{
+		std::cout << ".0";
+	}
+	std::cout << "f" << std::endl;
 }
 
 // ==========================================================
