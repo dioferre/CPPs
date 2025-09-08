@@ -1,27 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Base.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/08 10:13:28 by dioferre          #+#    #+#             */
-/*   Updated: 2025/09/08 10:13:34 by dioferre         ###   ########.fr       */
+/*   Created: 2025/09/08 10:42:52 by dioferre          #+#    #+#             */
+/*   Updated: 2025/09/08 10:43:05 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ScalarConverter.hpp"
+#include "Base.hpp"
 
-
-int	main(int argc, char **argv)
-{
-	if (argc != 2)
-	{
-		std::cerr << "program only accepts one argument!" << std::endl;
-	}
-	else
-	{
-		ScalarConverter::convert(argv[1]);
-	}
-	return (0);
-}
+Base::~Base() {};

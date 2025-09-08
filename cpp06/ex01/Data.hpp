@@ -7,7 +7,7 @@ typedef struct Data {
 	
 	std::string	text;
 	int			num;
-	bool 		stat;
+	bool 		status;
 
 } Data;
 
