@@ -1,6 +1,7 @@
 #ifndef SPAN_HPP
 #define SPAN_HPP
 
+#include <iostream>
 #include <stdexcept> 
 #include <vector>
 #include <algorithm>
@@ -20,6 +21,7 @@ public:
 	Span&	operator=( const Span& other );
 
 	void	addNumber( int nr );
+	void	addNumberRange( int start, int end );
 
 	int		shortestSpan(void);
 	int		longestSpan(void);

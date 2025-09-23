@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 14:35:34 by dioferre          #+#    #+#             */
-/*   Updated: 2025/09/16 15:07:12 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/09/22 09:05:02 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,31 @@ void	Span::addNumber( int nr )
 {
 	if (_nrs.size() >= static_cast<size_t>(max_size))
 		throw std::out_of_range("Span vector already full");
+
 	_nrs.push_back(nr);
+}
+
+void	Span::addNumberRange( int start, int end )
+{
+	unsigned int range = end - start + 1;
+
+	if ( range > max_size )
+	{
+		std::cout << "[Span::addNumberRange] Warning: provided range is " 
+				<< "greater than allocated size, range has been limited to "
+				<< "the allocated size instead." << std::endl;
+		range = max_size;
+	}
+	
+	for (unsigned int i = 0; i < range; i++)
+		_nrs.push_back(start + i);
 }
 
 int	Span::shortestSpan(void)
 {
-	if (_nrs.size() >= static_cast<size_t>(max_size))
-		throw std::out_of_range("Span vector already full");
-	
+	if (_nrs.size() < 2)
+		throw std::runtime_error("Not enough numbers");
+
 	int	shortest = std::numeric_limits<int>::max();
 	std::vector<int> tmp = _nrs;
 	std::sort(tmp.begin(), tmp.end());
