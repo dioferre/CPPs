@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Phonebook.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:58:14 by dioferre          #+#    #+#             */
-/*   Updated: 2025/05/09 18:16:03 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/11/10 11:56:07 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ Phonebook::~Phonebook()
 int	Phonebook::Add()
 {
 
-	if (_index >= Max_Contacts || _index == -1)
+	if (_index >= MAX_CONTACTS || _index == -1)
 		_index = 0;
 
 	std::string	firstName;
@@ -78,7 +78,7 @@ int	Phonebook::Search()
 void	Phonebook::printContacts()
 {
 	printHeader();
-	for (short i = 0; i < Max_Contacts; i++)
+	for (short i = 0; i < MAX_CONTACTS; i++)
 	{
 		printIndividualContact(contacts[i], i);
 	}

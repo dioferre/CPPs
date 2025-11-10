@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 
-# define Max_Contacts 8
+# define MAX_CONTACTS 8
 
 #define RESET       "\033[0m"
 #define BLACK       "\033[30m"
@@ -27,12 +27,12 @@ class	Phonebook
 
 		int		Add();
 		int		Search();
-		void	printContacts();
 	private:
-		Contact	contacts[8];
+		Contact	contacts[MAX_CONTACTS];
 		short	_index;
-
+		
 		// Helpers
+		void	printContacts();
 		bool	isPrintableStr(std::string& str);
 		bool	isAllDigitStr(std::string& str);
 		bool	hasOnlySpaces(std::string& str);
