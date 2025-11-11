@@ -2,63 +2,42 @@
 #define BITCOINEXCHANGE_HPP
 
 #include <iostream>
+# include <fstream>
+# include <sstream>
 #include <map>
 
-class Date
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+#include "Date.hpp"
+#include "BitcoinTransaction.hpp"
+#include "BitcoinDatabase.hpp"
+
+class Date;
+class BitcoinTransaction;
+class BitcoinDatabase;
+
+class BitcoinExchange
 {
 private:
-	const int	_year;
-	const int	_month;
-	const int	_day;
+	std::map<Date, float>	_transactions;
+
+
+	BitcoinDatabase			_database;
+
+	void					buildTransactions( const std::string input_file );
+
+	BitcoinExchange();
 public:
-	Date();
-	Date( int y, int m, int d );
-	Date( const Date& other );
-	~Date();
+	BitcoinExchange( const std::string input_file );
+	BitcoinExchange( const BitcoinExchange& other );
+	~BitcoinExchange();
 
-	Date&	operator=( const Date& other );
+	BitcoinExchange&		operator=( const BitcoinExchange& other );
 
-	int	getYear( void );
-	int	getMonth( void );
-	int	getDay( void );
-};
-
-class BitcoinTransaction
-{
-private:
-	Date		_date;
-	const float	_value;
-
-	void		printError( std::string message );
-
-	int			calculateDaysInMonth( void );
-public:
-	BitcoinTransaction();
-	BitcoinTransaction( Date date, float value );
-	BitcoinTransaction( const BitcoinTransaction& other );
-	~BitcoinTransaction();
-
-	BitcoinTransaction&	operator=( const BitcoinTransaction& other );
-
-	void	validateDate( void );
-	void	validateValue( void );
-};
-
-class BitcoinDatabase
-{
-private:
-	BitcoinDatabase&	operator=( const BitcoinDatabase& other );
-
-	std::map<Date, int>	_database;
-
-	Date	getClosestDate( const Date &date ) const;
-public:
-	BitcoinDatabase();
-	BitcoinDatabase( const BitcoinDatabase& other ); 
-	~BitcoinDatabase();
-
-
-	float	getValue( const Date &date ) const;
+	void	executeTransactions();
 };
 
 #endif
