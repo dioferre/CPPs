@@ -6,19 +6,19 @@
 /*   By: dioferre <dioferre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 14:59:03 by dioferre          #+#    #+#             */
-/*   Updated: 2025/11/11 18:55:29 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/12/29 16:37:08 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinTransaction.hpp"
 
-BitcoinTransaction::BitcoinTransaction() : _date(Date()), _value(0) {}
+BitcoinTransaction::BitcoinTransaction() : _date(Date()), _exchange_rate(0), _amount(0) {}
 
-BitcoinTransaction::BitcoinTransaction( Date date, float value, float amount ) : 
-	_date(date), _value(value), _amount(amount) {}
+BitcoinTransaction::BitcoinTransaction( Date date, float exchange_rate, float amount ) : 
+	_date(date), _exchange_rate(exchange_rate), _amount(amount) {}
 
 BitcoinTransaction::BitcoinTransaction( const BitcoinTransaction& other ) :
-	_date(other._date), _value(other._value), _amount(other._amount) {}
+	_date(other._date), _exchange_rate(other._exchange_rate), _amount(other._amount) {}
 
 BitcoinTransaction::~BitcoinTransaction() {}
 
@@ -61,9 +61,7 @@ void	BitcoinTransaction::printError( std::string message)
 {
 	if (message == "invalid date") 
 	{
-		std::cout << "Error: bad input => " << _date.getYear()
-			<< "-" << _date.getMonth() << "-" << _date.getDay()
-			<< std::endl;
+		std::cout << "Error: bad input => " << _date << std::endl;
 	}
 	else
 	{
@@ -71,14 +69,14 @@ void	BitcoinTransaction::printError( std::string message)
 	}
 }
 
-bool	BitcoinTransaction::validateValue( void ) 
+bool	BitcoinTransaction::validateAmount( void ) 
 {
-	if (_value < 0)
+	if (_amount < 0)
 	{
 		printError("not a positive number");
 		return (true);
 	}
-	else if (_value > 1000)
+	else if (_amount > 1000)
 	{
 		printError("too large a number");
 		return (true);
@@ -89,7 +87,7 @@ bool	BitcoinTransaction::validateValue( void )
 bool	BitcoinTransaction::validateDate( void ) 
 {
 	if ((_date.getYear() < 2009 || _date.getMonth() < 1 || _date.getMonth() > 12 
-		|| _date.getDay() < 1 || _date.getDay() > 31) // checking if date values are valid
+		|| _date.getDay() < 1 || _date.getDay() > 31) // checking if date exchange_rates are valid
 		|| (_date.getDay() > calculateDaysInMonth()) // checking if the day doesn't exceed the month's total days
 		|| (_date.getYear() == 2009 && (_date.getMonth() == 1 && _date.getDay() < 3))) // checking if date isn't prior to creation of BTC
 	{
@@ -101,8 +99,8 @@ bool	BitcoinTransaction::validateDate( void )
 
 void	BitcoinTransaction::processTransaction()
 {
-	if (validateValue() || validateDate())
+	if (validateAmount() || validateDate())
 		return ;
 
-	std::cout << _date << " => " << _value << " = " << (_value * _amount) << std::endl;
+	std::cout << _date << " => " << _amount << " = " << float(_exchange_rate * _amount) << std::endl;
 }

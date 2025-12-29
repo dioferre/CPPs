@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 14:57:57 by dioferre          #+#    #+#             */
-/*   Updated: 2025/11/11 18:55:13 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/12/29 16:15:51 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ Date&	Date::operator=( const Date& other )
 
 bool	Date::operator==( const Date& other ) const
 {
-	if (_year == other._year && _month == other._month && _day == other._day);
+	if (_year == other._year && _month == other._month && _day == other._day)
 		return (true);
 	return (false);
 }
@@ -72,9 +72,17 @@ int	Date::getMonth( void ) const { return (_month); }
 
 int	Date::getDay( void ) const { return (_day); }
 
-std::ostream&	operator<<(std::ostream& os, const Date& date)
+std::ostream& operator<<(std::ostream& os, const Date& date)
 {
-	os << date.getYear() << '-' << date.getMonth() << '-'
-		<< date.getDay();
+	// Save the current fill character to restore it later (optional but good practice)
+	char prevFill = os.fill();
+
+	os << date.getYear() << '-'
+		<< std::setfill('0') << std::setw(2) << date.getMonth() << '-'
+		<< std::setfill('0') << std::setw(2) << date.getDay();
+
+	// Restore the original fill character
+	os.fill(prevFill);
+
 	return os;
 }

@@ -1,7 +1,10 @@
 #ifndef DATE_HPP
 #define DATE_HPP
 
-#include "BitcoinExchange.hpp"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
 
 class Date
 {
@@ -20,7 +23,6 @@ public:
 	bool	operator==( const Date& other ) const;
 	bool	operator<( const Date& other ) const ;
 	bool	operator>( const Date& other ) const ;
-	
 	
 	int	getYear( void ) const ;
 	int	getMonth( void ) const ;

@@ -6,15 +6,17 @@
 /*   By: dioferre <dioferre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 15:01:34 by dioferre          #+#    #+#             */
-/*   Updated: 2025/11/11 18:55:35 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/12/29 16:35:33 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinDatabase.hpp"
 
-BitcoinDatabase::BitcoinDatabase() : _data()
+const std::string BitcoinDatabase::_dataFile = "data.csv";
+
+BitcoinDatabase::BitcoinDatabase()
 {
-	std::ifstream	file(_dataFile);
+	std::ifstream	file(_dataFile.c_str());
 	if (!file.is_open())
 		throw CouldNotOpenDataFile();
 
@@ -35,7 +37,8 @@ BitcoinDatabase::BitcoinDatabase() : _data()
 	}
 }
 
-BitcoinDatabase::BitcoinDatabase( const BitcoinDatabase& other ) : _data(other._data) {}
+BitcoinDatabase::BitcoinDatabase( const BitcoinDatabase& other ) :
+	 _data(other._data) {}
 
 BitcoinDatabase::~BitcoinDatabase() {}
 
@@ -50,22 +53,15 @@ BitcoinDatabase&	BitcoinDatabase::operator=( const BitcoinDatabase& other )
 
 Date	BitcoinDatabase::getClosestDate( const Date& date )
 {
-	Date	closestDate = _data.lower_bound(date)->first;
-	std::map<Date, float>::iterator it = _data.begin();
+	std::map<Date, float>::iterator it = _data.lower_bound(date);
 
-	while (it != _data.end())
+	if (it == _data.begin() || (it != _data.end() && it->first == date))
 	{
-		if (it->first == date)
-		{
-			return (it->first);
-		}
-		else if (it->first > closestDate && it->first < date)
-		{
-			closestDate = it->first;
-		}
-		it++;
+		return (it->first);
 	}
-	return (closestDate);
+
+	--it;
+	return (it->first);
 }
 
 float	BitcoinDatabase::getValue( const Date& date )

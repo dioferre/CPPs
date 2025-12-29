@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #include "Date.hpp"
 #include "BitcoinTransaction.hpp"
@@ -22,12 +23,9 @@ class BitcoinDatabase;
 class BitcoinExchange
 {
 private:
-	std::map<Date, float>	_transactions;
-
-
 	BitcoinDatabase			_database;
 
-	void					buildTransactions( const std::string input_file );
+	const std::string		_input_file;
 
 	BitcoinExchange();
 public:
@@ -37,7 +35,21 @@ public:
 
 	BitcoinExchange&		operator=( const BitcoinExchange& other );
 
-	void	executeTransactions();
+	void run();
+
+	class InvalidColumnFormat : public std::exception {
+	public:
+		virtual const char* what() const throw() {
+			return "Error: invalid column format detected in file.";
+		}
+	};
+
+	class CouldNotOpenFile : public std::exception {
+	public:
+		virtual const char* what() const throw() {
+			return "Error: could not open file.";
+		}
+	};
 };
 
 #endif

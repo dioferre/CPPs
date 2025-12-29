@@ -10,14 +10,14 @@ class BitcoinTransaction
 {
 private:
 	Date		_date;
-	const float	_value;
+	const float	_exchange_rate;
 	const float	_amount;
 
 	void		printError( std::string message );
 
 	int			calculateDaysInMonth( void );
 	bool		validateDate( void );
-	bool		validateValue( void );
+	bool		validateAmount( void );
 	BitcoinTransaction();
 public:
 	BitcoinTransaction( Date date, float value, float amount );
