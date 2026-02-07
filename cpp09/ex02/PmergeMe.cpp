@@ -142,11 +142,6 @@ void	PmergeMe::_mergeInsertSort(std::vector<unsigned int>& elements)
 	std::vector<std::pair<unsigned int, unsigned int> > reordered_pairs =
 		 _sortPairs(pairs, winners);
 
-	// this will sort the pairs, since the winners are already sorted we can do this,
-	// it basically makes it so the winners are also sorted in our pairs vector, 
-	// making them easier and faster to access during insertion.
-	std::sort(pairs.begin(), pairs.end());
-
 	_insertLosers(winners, losers, reordered_pairs);
 
 	elements = winners;
