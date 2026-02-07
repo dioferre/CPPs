@@ -38,6 +38,10 @@ private:
 			const std::deque<unsigned int>& losers,
 			const std::deque<std::pair<unsigned int, unsigned int> >& pairs);
 
+	std::deque<std::pair<unsigned int, unsigned int> >
+		_sortPairs(std::deque<std::pair<unsigned int, unsigned int> >& pairs,
+					std::deque<unsigned int>& winners);
+
 	/* -------------------------------------------------------------- */
 	/* SHARED HELPERS                                                 */
 	/* -------------------------------------------------------------- */ 
@@ -50,7 +54,7 @@ public:
 	~PmergeMe();
 
 	void	sort(std::vector<unsigned int>& elements);
-	//void	sort(std::deque<unsigned int>& elements);
+	void	sort(std::deque<unsigned int>& elements);
 
 	PmergeMe&	operator=(PmergeMe& other);
 };

@@ -1,87 +1,128 @@
-
-
 #include <iostream>
 #include <limits>
+#include <deque>
 #include <vector>
 #include <ctime>
-
+#include <cstdlib>
+#include <stdexcept>
 #include "PmergeMe.hpp"
 
-std::vector<unsigned int>	buildVector(char **argv)
-{
-	std::vector<unsigned int> v; 
-	for (size_t i = 1; argv[i]; ++i)
-	{
-		long	value = atol(argv[i]);
-
-		if (value <= 0) {
-			throw std::invalid_argument("Non positive value.");
-		} else if (value > __INT_MAX__) {
-			throw std::invalid_argument("Too large a value.");
-		}
-
-		v.push_back(value);
-	}
-	return (v);
-}
+const bool SHORTEN_SEQUENCE_PRINT = true;
+const int MAX_PRINT_ELEMENTS = 10;
 
 template <typename T>
 void printContainer(const T& container) 
 {
-	for (typename T::const_iterator it = container.begin(); it != container.end(); ++it) {
-		std::cout << *it << " ";
+	if (SHORTEN_SEQUENCE_PRINT) {
+		int count = 0;
+		for (typename T::const_iterator it = container.begin(); it != container.end(); ++it) {
+			std::cout << *it << " ";
+			if (++count >= MAX_PRINT_ELEMENTS) {
+				std::cout << "[...]";
+				break;
+			}
+		}
+	} else {
+		for (typename T::const_iterator it = container.begin(); it != container.end(); ++it) {
+			std::cout << *it << " ";
+		}
 	}
 	std::cout << std::endl;
 }
 
-int	main(int argc, char **argv)
+template <typename T>
+bool isSorted(const T& container)
+{
+	if (container.empty())
+		return true;
+	
+	typename T::const_iterator current = container.begin();
+	typename T::const_iterator next = current;
+	++next;
+	
+	while (next != container.end()) {
+		if (*current > *next)
+			return false;
+		++current;
+		++next;
+	}
+	return true;
+}
+
+void checkArgs(int argc, char **argv, 
+			   std::vector<unsigned int>& v, 
+			   std::deque<unsigned int>& d)
 {
 	if (argc < 2) {
-		std::cerr << "Error: Too few arguments" << std::endl; 
-		return (1);
+		throw std::invalid_argument("Too few arguments.");
 	}
+	
+	for (int i = 1; i < argc; ++i) {
+		char *endptr;
+		long value = std::strtol(argv[i], &endptr, 10);
+		
+		if (*endptr != '\0') {
+			throw std::invalid_argument("Invalid number format.");
+		}
+		if (value <= 0) {
+			throw std::invalid_argument("Non positive value.");
+		}
+		if (value > __INT_MAX__) {
+			throw std::invalid_argument("Too large a value.");
+		}
+		
+		v.push_back(static_cast<unsigned int>(value));
+		d.push_back(static_cast<unsigned int>(value));
+	}
+}
 
+int main(int argc, char **argv)
+{
 	std::vector<unsigned int> unsorted_v;
-
-	try 
-	{
-		unsorted_v = buildVector(argv);
-
+	std::deque<unsigned int> d;
+	
+	try {
+		checkArgs(argc, argv, unsorted_v, d);
 	}
-	catch(const std::exception& e)
-	{
+	catch (const std::exception& e) {
 		std::cerr << "Error: " << e.what() << '\n';
-		return (1);
+		return 1;
 	}
-
+	
 	std::vector<unsigned int> v = unsorted_v;
-	double v_duration = -1;
-
-	PmergeMe	mergeInsert;
-
-	try
-	{
+	PmergeMe mergeInsert;
+	
+	try {
 		std::clock_t v_start = std::clock();
 		mergeInsert.sort(v);
 		std::clock_t v_end = std::clock();
-		v_duration = static_cast<double>(v_end - v_start) / CLOCKS_PER_SEC * 1000000;
+		double v_duration = static_cast<double>(v_end - v_start) / CLOCKS_PER_SEC * 1000000;
+		
+		std::clock_t d_start = std::clock();
+		mergeInsert.sort(d);
+		std::clock_t d_end = std::clock();
+		double d_duration = static_cast<double>(d_end - d_start) / CLOCKS_PER_SEC * 1000000;
+		
+		if (!isSorted(v)) {
+			throw std::logic_error("Vector sorting failed.");
+		}
+		if (!isSorted(d)) {
+			throw std::logic_error("Deque sorting failed.");
+		}
+		
+		std::cout << "Before: ";
+		printContainer(unsorted_v);
+		std::cout << "\nAfter:  ";
+		printContainer(v);
+		std::cout << "Time to process a range of " << unsorted_v.size() 
+				  << " elements with std::vector : " << v_duration << " us" << std::endl;
+		std::cout << "Time to process a range of " << unsorted_v.size() 
+				  << " elements with std::deque  : " << d_duration << " us" << std::endl;
 	}
-	catch(const std::exception& e)
-	{
+	catch (const std::exception& e) {
 		std::cerr << "Error: " << e.what() << '\n';
-		return (1);
+		return 1;
 	}
-/* 
-	std::cout << "Before: ";
-	printContainer(unsorted_v);
-
-	std::cout << "\nAfter: ";
-	printContainer(v);
-
- */
-	std::cout << "Time to process a range of " << unsorted_v.size() << " elements with std::vector : "
-		 << v_duration << " us" << std::endl;
 	
-	
-	return (0);
+	return 0;
 }

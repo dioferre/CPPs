@@ -1,7 +1,6 @@
 
 #include "PmergeMe.hpp"
 
-
 // The subject asks for a max_size of 3k ints minimum.
 // I'm hard capping it at this very specific numbe since
 // it'ts the highest number in the same cost tier for binary search as 3000.
@@ -22,7 +21,9 @@ PmergeMe& PmergeMe::operator=(PmergeMe& other)
 	return (*this);
 }
 
-// =================================================================
+// =============================================================================
+//                             PUBLIC METHODS
+// =============================================================================
 
 void	PmergeMe::sort(std::vector<unsigned int>& elements)
 {
@@ -34,11 +35,17 @@ void	PmergeMe::sort(std::vector<unsigned int>& elements)
 
 	_mergeInsertSort(elements);
 }
-/* 
-void	PmergeMe::sort(std::deque<unsigned int>& elements)
+
+void    PmergeMe::sort(std::deque<unsigned int>& elements)
 {
-	_mergeInsertSort(elements);
-} */
+    if (elements.size() <= 1) {
+        throw std::invalid_argument("Deque size too small. Minimum size is: 2.");
+    } else if (elements.size() > max_size) {
+        throw std::invalid_argument("Deque size too big. Maximum size is: 5461.");
+    }
+
+    _mergeInsertSort(elements);
+}
 
 // returns the JacobsthalNumber at N'th place.
 // basically, what amount will need N binary comparisons to sort.
@@ -54,9 +61,9 @@ size_t PmergeMe::_getJacobsthalNumber(size_t n)
 	return (jacobsthal_nums[n]);
 }
 
-	/* -------------------------------------------------------------- */
-	/* VECTOR IMPLEMENTATION                                          */
-	/* -------------------------------------------------------------- */
+// =============================================================================
+//                             VECTOR IMPLEMENTATION
+// =============================================================================
 
 std::vector<std::pair<unsigned int, unsigned int> >	PmergeMe::_sortPairs
 	(std::vector<std::pair<unsigned int, unsigned int> >& pairs,
@@ -132,7 +139,8 @@ void	PmergeMe::_mergeInsertSort(std::vector<unsigned int>& elements)
 	// * Since the winners are now ordered, we're going to order the original pairs based on that.
 	// * Making a new container is significantally more efficient than reutilizing the old one.
 	// * This is not cheating since the _sortPairs method only uses the '==' comparison, which doesn't count for the algorithm.
-	std::vector<std::pair<unsigned int, unsigned int> > reordered_pairs = _sortPairs(pairs, winners);
+	std::vector<std::pair<unsigned int, unsigned int> > reordered_pairs =
+		 _sortPairs(pairs, winners);
 
 	// this will sort the pairs, since the winners are already sorted we can do this,
 	// it basically makes it so the winners are also sorted in our pairs vector, 
@@ -211,7 +219,112 @@ void PmergeMe::_insertLosers (std::vector<unsigned int>& mainChain,
 		mainChain.insert(insertPos, straggler);
 	}
 }
+// =============================================================================
+//                             DEQUE IMPLEMENTATION
+// =============================================================================
 
-	/* -------------------------------------------------------------- */
-	/* DEQUE IMPLEMENTATION                                           */
-	/* -------------------------------------------------------------- */
+std::deque<std::pair<unsigned int, unsigned int> > PmergeMe::_sortPairs(
+	std::deque<std::pair<unsigned int, unsigned int> >& pairs,
+	std::deque<unsigned int>& winners)
+{
+	std::deque<std::pair<unsigned int, unsigned int> > reordered_pairs;
+	
+	for (size_t i = 0; i < winners.size(); ++i)
+	{
+		unsigned int w = winners[i];
+		for (size_t j = 0; j < pairs.size(); ++j)
+		{
+			if (pairs[j].first == w)
+			{
+				reordered_pairs.push_back(pairs[j]);
+				break; 
+			}
+		}
+	}
+	return (reordered_pairs);
+}
+
+void    PmergeMe::_mergeInsertSort(std::deque<unsigned int>& elements)
+{
+	if (elements.size() <= 1)
+		return ;
+
+	std::deque<unsigned int> winners;
+	std::deque<unsigned int> losers;
+	std::deque<std::pair<unsigned int, unsigned int> > pairs;
+
+	for (size_t i = 0; i < elements.size() / 2; i++)
+	{
+		unsigned int a = elements[2*i];
+		unsigned int b = elements[2*i + 1];
+
+		if (a > b) {
+			pairs.push_back(std::make_pair(a, b));
+			winners.push_back(a);
+			losers.push_back(b);
+		} else {
+			pairs.push_back(std::make_pair(b, a));
+			winners.push_back(b);
+			losers.push_back(a);
+		}
+	}
+
+	if (elements.size() % 2 != 0) {
+		losers.push_back(elements.back());
+	}
+	
+	_mergeInsertSort(winners);
+
+	std::deque<std::pair<unsigned int, unsigned int> > reordered_pairs = 
+		_sortPairs(pairs, winners);
+
+	_insertLosers(winners, losers, reordered_pairs);
+
+	elements = winners;
+}
+
+void PmergeMe::_insertLosers (std::deque<unsigned int>& mainChain, 
+							const std::deque<unsigned int>& losers,
+							const std::deque<std::pair<unsigned int, unsigned int> >& pairs)
+{
+	bool hasStraggler = (losers.size() > pairs.size());
+
+	if (!pairs.empty()) {
+		mainChain.insert(mainChain.begin(), pairs[0].second);
+	}
+
+	size_t jacobsthalIdx = 2; 
+	size_t lastInsertedIndex = 0; 
+	size_t pendingCount = pairs.size();
+
+	while (lastInsertedIndex < pendingCount - 1)
+	{
+		size_t nextLimit = _getJacobsthalNumber(jacobsthalIdx);
+		size_t rightBound = nextLimit;
+		if (rightBound > pendingCount)
+			rightBound = pendingCount;
+
+		for (size_t i = rightBound - 1; i > lastInsertedIndex; --i)
+		{
+			unsigned int loserValue = pairs[i].second;
+			unsigned int winnerValue = pairs[i].first;
+
+			std::deque<unsigned int>::iterator winnerPos = 
+				std::lower_bound(mainChain.begin(), mainChain.end(), winnerValue);
+			
+			std::deque<unsigned int>::iterator insertPos = 
+				std::upper_bound(mainChain.begin(), winnerPos, loserValue);
+			
+			mainChain.insert(insertPos, loserValue);
+		}
+		lastInsertedIndex = rightBound - 1; 
+		jacobsthalIdx++;
+	}
+
+	if (hasStraggler) {
+		unsigned int straggler = losers.back();
+		std::deque<unsigned int>::iterator insertPos = 
+			std::upper_bound(mainChain.begin(), mainChain.end(), straggler);
+		mainChain.insert(insertPos, straggler);
+	}
+}

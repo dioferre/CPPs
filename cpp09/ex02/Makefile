@@ -1,6 +1,6 @@
 # Compiler and Flags
 CXX      := c++
-CXXFLAGS := -Wall -Wextra -Werror -std=c++98 -g # Common for these types of exercises
+CXXFLAGS := -Wall -Wextra -Werror -std=c++98 # Common for these types of exercises
 NAME     := PmergeMe
 
 # Source files and Objects
