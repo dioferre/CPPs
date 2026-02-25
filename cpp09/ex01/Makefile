@@ -3,11 +3,11 @@ CXX := c++
 CXXFLAGS := -Wall -Wextra -Werror -g -std=c++98
 
 # Source and object files
-SRCS := main.cpp  Date.cpp  BitcoinTransaction.cpp  BitcoinExchange.cpp  BitcoinDatabase.cpp  
+SRCS := main.cpp  RPN.cpp 
 OBJS := $(SRCS:.cpp=.o)
 
 # Executable name
-NAME := btc
+NAME := RPN
 
 # Default target
 all: $(NAME)

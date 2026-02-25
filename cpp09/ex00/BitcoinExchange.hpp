@@ -10,7 +10,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "Date.hpp"
 #include "BitcoinTransaction.hpp"
@@ -37,19 +37,6 @@ public:
 
 	void run();
 
-	class InvalidColumnFormat : public std::exception {
-	public:
-		virtual const char* what() const throw() {
-			return "Error: invalid column format detected in file.";
-		}
-	};
-
-	class CouldNotOpenFile : public std::exception {
-	public:
-		virtual const char* what() const throw() {
-			return "Error: could not open file.";
-		}
-	};
 };
 
 #endif

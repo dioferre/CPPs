@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 18:14:31 by dioferre          #+#    #+#             */
-/*   Updated: 2025/12/29 19:10:40 by dioferre         ###   ########.fr       */
+/*   Updated: 2026/02/25 09:11:31 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ RPN::RPN( const std::string expression )
 		else if (!isdigit(*current_token.c_str()))
 			executeOperation(*current_token.c_str());
 		else
-			_expression.push(atoi(current_token.c_str()));
+			_expression.push(std::atoi(current_token.c_str()));
 	}
 	
 	// Need to verify this.
@@ -40,7 +40,17 @@ RPN::RPN( const std::string expression )
 	_expression.pop();
 }
 
+RPN::RPN(const RPN& other) { *this = other; }
+
 RPN::~RPN() {}
+
+RPN&	RPN::operator=( const RPN& other )
+{
+	if (this != &other)
+	{}
+
+	return (*this);
+}
 
 bool	RPN::isOperation( const char c ) const
 {
@@ -57,10 +67,10 @@ bool	RPN::isValidToken( const std::string& token ) const
 	if (token.length() == 1 && isOperation(token[0]))
 		return (true);
 		
-	for (char c : token)
+	for (std::string::size_type i = 0; i < token.length(); ++i)
 	{
-		if (!isdigit(c))
-			return (false);
+		if (!isdigit(static_cast<unsigned char>(token[i])))
+			return false;
 	}
 	
 	return (true);
@@ -84,10 +94,10 @@ void	RPN::executeOperation(const char c)
 		case '-': result = num1 - num2; break;
 		case '*': result = num1 * num2; break;
 		case '/':
-			if (num2 == 0) throw std::runtime_error("Error: division by zero");
+			if (num2 == 0) throw std::runtime_error("division by zero");
 			result = num1 / num2;
 			break;
-		default: throw std::invalid_argument("Error: unknown operator"); // should never happen lel
+		default: throw std::invalid_argument("unknown operator"); // should never happen lel
 	}
 	_expression.push(result);
 }

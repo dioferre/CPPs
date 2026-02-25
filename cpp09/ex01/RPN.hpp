@@ -10,11 +10,11 @@
 #include <sstream>
 #include <iomanip>
 
+#include <cstdlib>
+
 class RPN
 {
 private:
-	/* data */
-	
 	std::stack<int>	_expression;
 
 	bool	isValidToken( const std::string& token ) const;
@@ -23,6 +23,8 @@ private:
 	void	executeOperation( const char c );
 
 	RPN();
+	RPN( const RPN& other );
+	RPN&	operator=(const RPN& other);
 public:
 	RPN( const std::string expression );
 	~RPN();

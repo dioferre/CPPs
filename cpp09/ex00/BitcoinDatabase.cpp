@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 15:01:34 by dioferre          #+#    #+#             */
-/*   Updated: 2025/12/29 16:35:33 by dioferre         ###   ########.fr       */
+/*   Updated: 2026/02/23 09:49:48 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ BitcoinDatabase::BitcoinDatabase()
 {
 	std::ifstream	file(_dataFile.c_str());
 	if (!file.is_open())
-		throw CouldNotOpenDataFile();
+		throw CouldNotOpenFileException("Failed to open required data.csv file.");
 
 	std::string	line;
 	std::getline(file, line);
 	if (line != "date,exchange_rate")
-		throw InvalidColumnFormat();
+		throw InvalidColumnFormatException("data.csv format should be: date,exchange_rate.");
 
 	while(std::getline(file, line))
 	{
@@ -33,7 +33,7 @@ BitcoinDatabase::BitcoinDatabase()
 		std::getline(iss, date, ',');
 		std::getline(iss, value, ',');
 
-		_data.insert(std::make_pair(Date(date), atof(value.c_str())));
+		_data.insert(std::make_pair(Date(date), std::atof(value.c_str())));
 	}
 }
 

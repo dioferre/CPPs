@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dioferre <dioferre@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/09 11:47:00 by dioferre          #+#    #+#             */
+/*   Updated: 2026/02/09 11:48:16 by dioferre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <iostream>
 #include <limits>
 #include <deque>
@@ -15,7 +27,8 @@ void printContainer(const T& container)
 {
 	if (SHORTEN_SEQUENCE_PRINT) {
 		int count = 0;
-		for (typename T::const_iterator it = container.begin(); it != container.end(); ++it) {
+		for (typename T::const_iterator it = container.begin(); 
+				it != container.end(); ++it) {
 			std::cout << *it << " ";
 			if (++count >= MAX_PRINT_ELEMENTS) {
 				std::cout << "[...]";
@@ -23,7 +36,8 @@ void printContainer(const T& container)
 			}
 		}
 	} else {
-		for (typename T::const_iterator it = container.begin(); it != container.end(); ++it) {
+		for (typename T::const_iterator it = container.begin(); 
+				it != container.end(); ++it) {
 			std::cout << *it << " ";
 		}
 	}
@@ -96,12 +110,14 @@ int main(int argc, char **argv)
 		std::clock_t v_start = std::clock();
 		mergeInsert.sort(v);
 		std::clock_t v_end = std::clock();
-		double v_duration = static_cast<double>(v_end - v_start) / CLOCKS_PER_SEC * 1000000;
+		double v_duration = 
+			static_cast<double>(v_end - v_start) / CLOCKS_PER_SEC * 1000000;
 		
 		std::clock_t d_start = std::clock();
 		mergeInsert.sort(d);
 		std::clock_t d_end = std::clock();
-		double d_duration = static_cast<double>(d_end - d_start) / CLOCKS_PER_SEC * 1000000;
+		double d_duration = 
+			static_cast<double>(d_end - d_start) / CLOCKS_PER_SEC * 1000000;
 		
 		if (!isSorted(v)) {
 			throw std::logic_error("Vector sorting failed.");
@@ -112,12 +128,15 @@ int main(int argc, char **argv)
 		
 		std::cout << "Before: ";
 		printContainer(unsorted_v);
+		
 		std::cout << "\nAfter:  ";
 		printContainer(v);
 		std::cout << "Time to process a range of " << unsorted_v.size() 
-				  << " elements with std::vector : " << v_duration << " us" << std::endl;
+				  << " elements with std::vector : "
+				  << v_duration << " us" << std::endl;
 		std::cout << "Time to process a range of " << unsorted_v.size() 
-				  << " elements with std::deque  : " << d_duration << " us" << std::endl;
+				  << " elements with std::deque  : "
+				  << d_duration << " us" << std::endl;
 	}
 	catch (const std::exception& e) {
 		std::cerr << "Error: " << e.what() << '\n';

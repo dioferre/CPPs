@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:41:45 by dioferre          #+#    #+#             */
-/*   Updated: 2025/12/29 16:40:12 by dioferre         ###   ########.fr       */
+/*   Updated: 2026/02/23 09:49:58 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,16 @@ BitcoinExchange&	BitcoinExchange::operator=( const BitcoinExchange& other )
 	return (*this);
 }
 
-// IMPORTANT:
-// Will need to change the behavior of transactions because of the map behvior
-// and container limitaiton;
-// Instead of building and storing the individual transactions, I'll simply execute them as I go.
 void	BitcoinExchange::run()
 {
 	std::ifstream	file(_input_file.c_str());
 	if (!file.is_open())
-		throw CouldNotOpenFile();
+		throw CouldNotOpenFileException("Failed to open input file.");
 	
 	std::string	line;
 	std::getline(file, line);
 	if (line != "date | value")
-		throw InvalidColumnFormat();
+		throw InvalidColumnFormatException("Invalid input file column format, should be: date | value");
 
 	while(std::getline(file, line))
 	{
@@ -62,7 +58,7 @@ void	BitcoinExchange::run()
 
 		Date	closestDate = _database.getClosestDate(Date(date_str));
 		float	exchange_rate = _database.getValue(closestDate);
-		float	amount = atof(amount_str.c_str());
+		float	amount = std::atof(amount_str.c_str());
 
 		BitcoinTransaction	current_transction(Date(date_str), exchange_rate, amount);
 		current_transction.processTransaction();
