@@ -65,30 +65,10 @@ size_t PmergeMe::_getJacobsthalNumber(size_t n)
 //                             VECTOR IMPLEMENTATION
 // =============================================================================
 
-std::vector<std::pair<unsigned int, unsigned int> >	PmergeMe::_sortPairs
-	(std::vector<std::pair<unsigned int, unsigned int> >& pairs,
-	std::vector<unsigned int>& winners)
+bool PmergeMe::comparePairs(const std::pair<unsigned int, unsigned int>& a, 
+							const std::pair<unsigned int, unsigned int>& b)
 {
-	std::vector<std::pair<unsigned int, unsigned int> > reordered_pairs;
-	
-	for (size_t i = 0; i < winners.size(); ++i)
-	{
-		unsigned int w = winners[i];
-	
-		// Find the corresponding pair in our unsorted 'pairs' list
-		for (size_t j = 0; j < pairs.size(); ++j)
-		{
-			if (pairs[j].first == w)
-			{
-				reordered_pairs.push_back(pairs[j]);
-				// Optimization: Remove found pair from 'pairs' to speed up future searches,
-				// In a vector, erasing is slow, so just leave it be instead.
-				break; 
-			}
-		}
-	}
-	
-	return (reordered_pairs);
+	return a.first < b.first;
 }
 
 void	PmergeMe::_mergeInsertSort(std::vector<unsigned int>& elements)
@@ -137,12 +117,10 @@ void	PmergeMe::_mergeInsertSort(std::vector<unsigned int>& elements)
 
 
 	// * Since the winners are now ordered, we're going to order the original pairs based on that.
-	// * Making a new container is significantally more efficient than reutilizing the old one.
-	// * This is not cheating since the _sortPairs method only uses the '==' comparison, which doesn't count for the algorithm.
-	std::vector<std::pair<unsigned int, unsigned int> > reordered_pairs =
-		 _sortPairs(pairs, winners);
+	// * This does not count for the total comparisons of the algorithm since we're only relinking metadata.
+	std::sort(pairs.begin(), pairs.end(), comparePairs);
 
-	_insertLosers(winners, losers, reordered_pairs);
+	_insertLosers(winners, losers, pairs);
 
 	elements = winners;
 }
@@ -218,27 +196,6 @@ void PmergeMe::_insertLosers (std::vector<unsigned int>& mainChain,
 //                             DEQUE IMPLEMENTATION
 // =============================================================================
 
-std::deque<std::pair<unsigned int, unsigned int> > PmergeMe::_sortPairs(
-	std::deque<std::pair<unsigned int, unsigned int> >& pairs,
-	std::deque<unsigned int>& winners)
-{
-	std::deque<std::pair<unsigned int, unsigned int> > reordered_pairs;
-	
-	for (size_t i = 0; i < winners.size(); ++i)
-	{
-		unsigned int w = winners[i];
-		for (size_t j = 0; j < pairs.size(); ++j)
-		{
-			if (pairs[j].first == w)
-			{
-				reordered_pairs.push_back(pairs[j]);
-				break; 
-			}
-		}
-	}
-	return (reordered_pairs);
-}
-
 void    PmergeMe::_mergeInsertSort(std::deque<unsigned int>& elements)
 {
 	if (elements.size() <= 1)
@@ -270,10 +227,10 @@ void    PmergeMe::_mergeInsertSort(std::deque<unsigned int>& elements)
 	
 	_mergeInsertSort(winners);
 
-	std::deque<std::pair<unsigned int, unsigned int> > reordered_pairs = 
-		_sortPairs(pairs, winners);
+	std::sort(pairs.begin(), pairs.end(), comparePairs);
 
-	_insertLosers(winners, losers, reordered_pairs);
+
+	_insertLosers(winners, losers, pairs);
 
 	elements = winners;
 }

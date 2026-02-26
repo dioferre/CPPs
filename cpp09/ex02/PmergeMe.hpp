@@ -24,9 +24,6 @@ private:
 			const std::vector<unsigned int>& losers,
 			const std::vector<std::pair<unsigned int, unsigned int> >& pairs);
 
-	std::vector<std::pair<unsigned int, unsigned int> >	
-		_sortPairs(std::vector<std::pair<unsigned int, unsigned int> >& pairs,
-					std::vector<unsigned int>& winners);
 
 	/* -------------------------------------------------------------- */
 	/* DEQUE IMPLEMENTATION                                           */
@@ -38,15 +35,14 @@ private:
 			const std::deque<unsigned int>& losers,
 			const std::deque<std::pair<unsigned int, unsigned int> >& pairs);
 
-	std::deque<std::pair<unsigned int, unsigned int> >
-		_sortPairs(std::deque<std::pair<unsigned int, unsigned int> >& pairs,
-					std::deque<unsigned int>& winners);
-
 	/* -------------------------------------------------------------- */
 	/* SHARED HELPERS                                                 */
 	/* -------------------------------------------------------------- */ 
 
 	size_t	_getJacobsthalNumber(size_t n);
+
+	static bool comparePairs(const std::pair<unsigned int, unsigned int>& a, 
+							const std::pair<unsigned int, unsigned int>& b);
 
 public:
 	PmergeMe();
