@@ -102,5 +102,8 @@ void	BitcoinTransaction::processTransaction()
 	if (validateAmount() || validateDate())
 		return ;
 
-	std::cout << _date << " => " << _amount << " = " << float(_exchange_rate * _amount) << std::endl;
+	std::cout << _date << " => " << _amount << " = " 
+			<< std::fixed << std::setprecision(2) 
+			<< (_exchange_rate * _amount) 
+			<< std::endl;
 }

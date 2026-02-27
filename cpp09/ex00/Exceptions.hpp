@@ -2,25 +2,29 @@
 #define EXCEPTIONS_HPP
 
 #include <exception>
+#include <string>
 
-class InvalidColumnFormatException : public std::exception{
+class InvalidColumnFormatException : public std::exception {
 private:
-	std::string message;
+    std::string _message;
 public:
-    virtual const char* what() const throw(){ return (this->message.c_str()); }
-
-    InvalidColumnFormatException(const std::string& msg){ this->message = msg; }
-	~InvalidColumnFormatException() throw(){}
+    InvalidColumnFormatException(const std::string& msg);
+    virtual ~InvalidColumnFormatException() throw();
+    virtual const char* what() const throw();
 };
 
-class CouldNotOpenFileException : public std::exception{
+class CouldNotOpenFileException : public std::exception {
 private:
-	std::string message;
+    std::string _message;
 public:
-    virtual const char* what() const throw(){ return (this->message.c_str()); }
+    CouldNotOpenFileException(const std::string& msg);
+    virtual ~CouldNotOpenFileException() throw();
+    virtual const char* what() const throw();
+};
 
-    CouldNotOpenFileException(const std::string& msg){ this->message = msg; }
-	~CouldNotOpenFileException() throw(){}
+class InvalidDateException : public std::exception {
+public:
+    virtual const char* what() const throw();
 };
 
 #endif

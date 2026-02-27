@@ -1,9 +1,9 @@
 # Compiler
 CXX := c++
-CXXFLAGS := -Wall -Wextra -Werror -g -std=c++98
+CXXFLAGS := -Wall -Wextra -Werror -std=c++98
 
 # Source and object files
-SRCS := main.cpp  Date.cpp  BitcoinTransaction.cpp  BitcoinExchange.cpp  BitcoinDatabase.cpp  
+SRCS := main.cpp  Date.cpp  BitcoinTransaction.cpp  BitcoinExchange.cpp  BitcoinDatabase.cpp  Exceptions.cpp 
 OBJS := $(SRCS:.cpp=.o)
 
 # Executable name

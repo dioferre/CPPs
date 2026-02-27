@@ -1,16 +1,11 @@
 #ifndef BITCOINEXCHANGE_HPP
 #define BITCOINEXCHANGE_HPP
 
-#include <iostream>
+# include <iostream>
 # include <fstream>
 # include <sstream>
-#include <map>
-
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <cstdlib>
+# include <map>
+# include <string>
 
 #include "Date.hpp"
 #include "BitcoinTransaction.hpp"
@@ -26,6 +21,9 @@ private:
 	BitcoinDatabase			_database;
 
 	const std::string		_input_file;
+
+	// Helper
+	std::string trim(const std::string& s);
 
 	BitcoinExchange();
 public:

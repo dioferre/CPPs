@@ -11,11 +11,15 @@
 /* ************************************************************************** */
 
 #include "Date.hpp"
+#include "Exceptions.hpp"
 
 Date::Date() : _year(2000), _month(1), _day(1) {}
 
+
 Date::Date( std::string date )
 {
+	validateString(date);
+
 	std::stringstream	ss(date);
 	char	sep;
 
@@ -29,6 +33,21 @@ _day(other._day) {}
 
 Date::~Date() {}
 
+void	Date::validateString( std::string& date )
+{
+	if (date.length() != 10) 
+		throw InvalidDateException();
+
+	if (date[4] != '-' || date[7] != '-') 
+		throw InvalidDateException();
+
+	for (size_t i = 0; i < 10; ++i) {
+		if (i == 4 || i == 7) 
+			continue; // Skip the hyphens
+		if (!std::isdigit(date[i])) 
+			throw InvalidDateException();
+	}
+}
 
 Date&	Date::operator=( const Date& other )
 {
